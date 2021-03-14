@@ -1,0 +1,13 @@
+{
+  "name": "ecommerce_v2-backend",
+  "version": "1.0.0",
+  "description": "An ecommerce website backend ",
+  "main": "app.js",
+  "start": "node app.js",
+  "server":"nodemon app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jabez Sanjay B",
+  "license": "ISC"
+}
