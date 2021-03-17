@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
+const authRoutes = require("./routes/auth");
 
 const localDb = process.env.DATABASE;
 
@@ -23,6 +24,9 @@ mongoose
   })
   .then(() => console.log("DB CONNECTED"))
   .catch((err) => console.log(err));
+
+//Routes
+app.use("/api", authRoutes);
 
 //Port
 const port = process.env.port || 8000;
