@@ -13,9 +13,13 @@ exports.register = (req, res) => {
   user.save((error, user) => {
     if (error) {
       return res.status(400).json({
-        error: error,
+        error: "Unable to save user!",
       });
     }
-    res.json(user);
+    res.json({
+      name: user.name,
+      email: user.email,
+      id: user._id,
+    });
   });
 };
