@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { Order } = require("../models/order");
 
 exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((error, user) => {
@@ -34,4 +35,18 @@ exports.updateUser = (req, res) => {
       return res.json(user);
     }
   );
+};
+
+exports.userPurchaseList = (req, res) => {
+  const id = req.profile._id;
+  Order.findById(id)
+    .populate("user", "_id name")
+    .exec((error, order) => {
+      if (error || !order) {
+        return res.status(400).json({
+          error: "No order is found in this account!",
+        });
+      }
+      return res.json(order);
+    });
 };
