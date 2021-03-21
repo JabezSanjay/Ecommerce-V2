@@ -13,3 +13,14 @@ exports.createCategory = (req, res) => {
     });
   });
 };
+
+exports.getAllCategories = (req, res) => {
+  Category.find((error, categories) => {
+    if (error) {
+      return res.status(400).json({
+        error: "No categories found",
+      });
+    }
+    return res.json(categories);
+  });
+};
