@@ -7,6 +7,7 @@ const {
   getAllCategories,
   getCategoryById,
   getCategory,
+  updateCategory,
 } = require("../controllers/category");
 const { getUserById } = require("../controllers/user");
 
@@ -19,6 +20,14 @@ router.post(
   isAuthenticated,
   isAdmin,
   createCategory
+);
+
+router.put(
+  "/category/update/:categoryId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  updateCategory
 );
 
 router.get("/category/all", getAllCategories);
