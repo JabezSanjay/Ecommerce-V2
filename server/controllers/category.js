@@ -40,3 +40,20 @@ exports.getAllCategories = (req, res) => {
 exports.getCategory = (req, res) => {
   return res.json(req.category);
 };
+
+exports.updateCategory = (req, res) => {
+  const category = req.category;
+  const oldCategoryName = req.category.name;
+  category.name = req.body.name;
+
+  category.save((error, updatedCategory) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Updation of category name failed!",
+      });
+    }
+    return res.json({
+      message: `${oldCategoryName} is changed to ${updatedCategory.name}`,
+    });
+  });
+};
