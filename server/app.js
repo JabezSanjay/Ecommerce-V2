@@ -7,6 +7,7 @@ const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
 
 const localDb = process.env.DATABASE;
 
@@ -29,6 +30,7 @@ mongoose
 //Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", categoryRoutes);
 
 //Port
 const port = process.env.port || 8000;
