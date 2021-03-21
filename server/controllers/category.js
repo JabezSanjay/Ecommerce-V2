@@ -53,7 +53,21 @@ exports.updateCategory = (req, res) => {
       });
     }
     return res.json({
-      message: `${oldCategoryName} is changed to ${updatedCategory.name}`,
+      message: `${oldCategoryName} is changed to ${updatedCategory.name}!`,
+    });
+  });
+};
+
+exports.deleteCategory = (req, res) => {
+  const category = req.category;
+  category.remove((error, deletedCategory) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Category is not deleted!",
+      });
+    }
+    return res.json({
+      message: `${deletedCategory.name} is deleted!`,
     });
   });
 };
