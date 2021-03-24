@@ -6,6 +6,7 @@ const {
   getProductById,
   createProduct,
   getAllProducts,
+  getProduct,
   deleteProduct,
 } = require("../controllers/product");
 const { getUserById } = require("../controllers/user");
@@ -22,6 +23,7 @@ router.post(
 );
 
 router.get("/products/all", getAllProducts);
+router.get("/product/:productId", getProduct);
 
 router.delete(
   "/product/delete/:productId/:userId",
