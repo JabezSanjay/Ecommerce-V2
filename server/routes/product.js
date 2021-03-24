@@ -5,6 +5,7 @@ const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 const {
   getProductById,
   createProduct,
+  getAllProducts,
   deleteProduct,
 } = require("../controllers/product");
 const { getUserById } = require("../controllers/user");
@@ -19,6 +20,8 @@ router.post(
   isAdmin,
   createProduct
 );
+
+router.get("/product/all", getAllProducts);
 
 router.delete(
   "/product/delete/:productId/:userId",
