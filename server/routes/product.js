@@ -21,7 +21,7 @@ router.post(
 );
 
 router.delete(
-  "/product/delete/:productId",
+  "/product/delete/:productId/:userId",
   isSignedIn,
   isAuthenticated,
   isAdmin,

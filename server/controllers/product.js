@@ -94,3 +94,17 @@ exports.createProduct = (req, res) => {
     uploadFile();
   });
 };
+
+exports.deleteProduct = (req, res) => {
+  const product = req.product;
+  product.remove((error, deletedProduct) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Product is not deleted!",
+      });
+    }
+    return res.json({
+      message: `${deletedProduct.name} is deleted!`,
+    });
+  });
+};
