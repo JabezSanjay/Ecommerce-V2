@@ -28,8 +28,8 @@ const productSchema = mongoose.Schema(
       default: 0,
     },
     photo: {
-      type: String,
-      required: true,
+      url: String,
+      name: String,
     },
   },
   { timestamps: true }
