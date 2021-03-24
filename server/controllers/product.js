@@ -106,6 +106,10 @@ exports.getAllProducts = (req, res) => {
   });
 };
 
+exports.getProduct = (req, res) => {
+  return res.json(req.product);
+};
+
 exports.deleteProduct = (req, res) => {
   const product = req.product;
   product.remove((error, deletedProduct) => {
