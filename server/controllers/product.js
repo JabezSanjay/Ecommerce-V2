@@ -95,6 +95,17 @@ exports.createProduct = (req, res) => {
   });
 };
 
+exports.getAllProducts = (req, res) => {
+  Product.find((error, products) => {
+    if (error) {
+      return res.status(400).json({
+        error: "No products found!",
+      });
+    }
+    return res.json(products);
+  });
+};
+
 exports.deleteProduct = (req, res) => {
   const product = req.product;
   product.remove((error, deletedProduct) => {
