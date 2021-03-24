@@ -9,6 +9,18 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
+exports.getProductById = (req, res, next, id) => {
+  Product.findById(id).exec((error, product) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Product not found!",
+      });
+    }
+    req.product = product;
+    next();
+  });
+};
+
 exports.createProduct = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
