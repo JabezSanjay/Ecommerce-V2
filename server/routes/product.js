@@ -7,6 +7,7 @@ const {
   createProduct,
   getAllProducts,
   getProduct,
+  updateProduct,
   deleteProduct,
 } = require("../controllers/product");
 const { getUserById } = require("../controllers/user");
@@ -24,6 +25,14 @@ router.post(
 
 router.get("/products/all", getAllProducts);
 router.get("/product/:productId", getProduct);
+
+router.put(
+  "/product/update/:productId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  updateProduct
+);
 
 router.delete(
   "/product/delete/:productId/:userId",

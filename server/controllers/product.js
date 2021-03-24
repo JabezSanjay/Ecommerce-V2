@@ -110,6 +110,68 @@ exports.getProduct = (req, res) => {
   return res.json(req.product);
 };
 
+exports.updateProduct = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+
+  form.parse(req, (err, fields, file) => {
+    if (err) {
+      return res.status(400).json({
+        error: "There is a problem with the image!",
+      });
+    }
+
+    //updation code
+    let product = req.product;
+    product = _.extend(product, fields);
+
+    const uploadFile = () => {
+      if (file.photo) {
+        fs.readFile(file.photo.path, (err, data) => {
+          if (err) throw err;
+          const params = {
+            Bucket: "ecommerce-v2",
+            Key: `${file.photo.name}`,
+            Body: JSON.stringify(data, null, 2),
+          };
+          s3.upload(params, function (s3Err, data) {
+            if (s3Err) throw s3Err;
+            product.photo.url = data.Location;
+            product.photo.name = data.Key;
+
+            if (!product.photo.url || product.url === "undefined") {
+              return res.status(400).json({
+                error: "Please include the required fields",
+              });
+            }
+
+            //save to the DB
+            product.save((err, product) => {
+              if (err || s3Err) {
+                res.status(400).json({
+                  error: "Updating the product failed!",
+                });
+              }
+              res.json(product);
+            });
+          });
+        });
+      } else {
+        //save to the DB
+        product.save((err, product) => {
+          if (err) {
+            res.status(400).json({
+              error: "Updating the product failed!",
+            });
+          }
+          res.json(product);
+        });
+      }
+    };
+    uploadFile();
+  });
+};
+
 exports.deleteProduct = (req, res) => {
   const product = req.product;
   product.remove((error, deletedProduct) => {
