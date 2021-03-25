@@ -7,6 +7,7 @@ const {
   getOrderById,
   createOrder,
   getAllOrders,
+  getOrderStatus,
   updateStock,
   pushOrderInPurchaseList,
 } = require("../controllers/order");
