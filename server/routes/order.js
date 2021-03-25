@@ -4,6 +4,7 @@ const router = express.Router();
 const { isAdmin, isAuthenticated, isSignedIn } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
 const {
+  getOrderById,
   createOrder,
   getAllOrders,
   updateStock,
@@ -11,6 +12,7 @@ const {
 } = require("../controllers/order");
 
 router.param("userId", getUserById);
+router.param("orderId", getOrderById);
 
 router.post(
   "/order/create/:userId",
