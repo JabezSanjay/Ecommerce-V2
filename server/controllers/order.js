@@ -40,6 +40,10 @@ exports.getAllOrders = (req, res) => {
   });
 };
 
+exports.getOrderStatus = (req, res) => {
+  res.json(Order.schema.path("status").enumValues);
+};
+
 //MIDDLEWARES
 exports.updateStock = (req, res, next) => {
   let stockUpdation = req.body.order.products.map((product) => {
