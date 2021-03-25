@@ -31,4 +31,12 @@ router.get(
   getAllOrders
 );
 
+router.get(
+  "/order/status/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  getOrderStatus
+);
+
 module.exports = router;
