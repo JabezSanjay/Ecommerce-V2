@@ -92,3 +92,18 @@ exports.pushOrderInPurchaseList = (req, res, next) => {
     }
   );
 };
+
+exports.updateOrderStatus = (req, res) => {
+  Order.updateOne(
+    { _id: req.order._id },
+    { $set: { status: req.body.status } },
+    (err, order) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Cannot update order status!",
+        });
+      }
+      return res.json(req.order);
+    }
+  );
+};
