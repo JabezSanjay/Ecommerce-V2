@@ -17,7 +17,7 @@ exports.getOrderById = (req, res, next, id) => {
 };
 
 exports.createOrder = (req, res) => {
-  req.body.order.user = req.profile;
+  // req.body.order.user = req.profile;
   const order = new Order(req.body.order);
   order.save((err, order) => {
     if (err) {
@@ -30,14 +30,16 @@ exports.createOrder = (req, res) => {
 };
 
 exports.getAllOrders = (req, res) => {
-  Order.find((error, orders) => {
-    if (error) {
-      return res.status(400).json({
-        error: "No orders so far!",
-      });
-    }
-    return res.json(orders);
-  });
+  Order.find()
+    .populate("user", "_id name")
+    .exec((err, order) => {
+      if (err) {
+        return res.status(400).json({
+          error: "No orders so far!",
+        });
+      }
+      res.json(order);
+    });
 };
 
 exports.getOrderStatus = (req, res) => {
@@ -46,11 +48,11 @@ exports.getOrderStatus = (req, res) => {
 
 //MIDDLEWARES
 exports.updateStock = (req, res, next) => {
-  let stockUpdation = req.body.order.products.map((product) => {
+  let stockUpdation = req.body.products.map((product) => {
     return {
       updateOne: {
         filter: { _id: product._id },
-        update: { $inc: { stock: product.stock - 1, sold: product.sold + 1 } },
+        update: { $inc: { stock: -product.count, sold: +product.count } },
       },
     };
   });
@@ -66,15 +68,15 @@ exports.updateStock = (req, res, next) => {
 
 exports.pushOrderInPurchaseList = (req, res, next) => {
   let purchases = [];
-  req.body.order.products.forEach((product) => {
+  req.body.products.forEach((product) => {
     purchases.push({
       _id: product._id,
       name: product.name,
       description: product.description,
       category: product.category,
       quantity: product.quantity,
-      amount: req.body.order.amount,
-      transaction_id: req.body.order.transaction_id,
+      amount: req.body.amount,
+      transaction_id: req.body.transaction_id,
     });
   });
 

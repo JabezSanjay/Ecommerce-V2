@@ -10,15 +10,17 @@ const s3 = new AWS.S3({
 });
 
 exports.getProductById = (req, res, next, id) => {
-  Product.findById(id).exec((error, product) => {
-    if (error) {
-      return res.status(400).json({
-        error: "Product not found!",
-      });
-    }
-    req.product = product;
-    next();
-  });
+  Product.findById(id)
+    .populate("category")
+    .exec((error, product) => {
+      if (error) {
+        return res.status(400).json({
+          error: "Product not found!",
+        });
+      }
+      req.product = product;
+      next();
+    });
 };
 
 exports.createProduct = (req, res) => {
@@ -96,14 +98,16 @@ exports.createProduct = (req, res) => {
 };
 
 exports.getAllProducts = (req, res) => {
-  Product.find((error, products) => {
-    if (error) {
-      return res.status(400).json({
-        error: "No products found!",
-      });
-    }
-    return res.json(products);
-  });
+  Product.find()
+    .populate("category")
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: "No products found!",
+        });
+      }
+      res.json(products);
+    });
 };
 
 exports.getProduct = (req, res) => {
