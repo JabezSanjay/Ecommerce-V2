@@ -1,5 +1,6 @@
 const { Order, ProductCart } = require("../models/order");
 const Product = require("../models/product");
+const User = require("../models/user");
 
 exports.createOrder = (req, res) => {
   req.body.order.user = req.profile;
@@ -14,6 +15,18 @@ exports.createOrder = (req, res) => {
   });
 };
 
+exports.getAllOrders = (req, res) => {
+  Order.find((error, orders) => {
+    if (error) {
+      return res.status(400).json({
+        error: "No orders so far!",
+      });
+    }
+    return res.json(orders);
+  });
+};
+
+//MIDDLEWARES
 exports.updateStock = (req, res, next) => {
   let stockUpdation = req.body.order.products.map((product) => {
     return {
@@ -31,4 +44,33 @@ exports.updateStock = (req, res, next) => {
     }
     next();
   });
+};
+
+exports.pushOrderInPurchaseList = (req, res, next) => {
+  let purchases = [];
+  req.body.order.products.forEach((product) => {
+    purchases.push({
+      _id: product._id,
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      quantity: product.quantity,
+      amount: req.body.order.amount,
+      transaction_id: req.body.order.transaction_id,
+    });
+  });
+
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $push: { purchases: purchases } },
+    { new: true },
+    (error, purchases) => {
+      if (error) {
+        return res.status(400).json({
+          error: "Unable to save the purchase list of user!",
+        });
+      }
+      next();
+    }
+  );
 };
