@@ -4,62 +4,65 @@ import RegisterIllustration from "../../assets/images/register-illustration.svg"
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Menu from "../../Layout/Menu";
+// import PageFooter from "../../Layout/PageFooter";
 
 const Register = () => {
   return (
     <RegisterTag>
-      <div>
-        <div className="align">
-          <div className="grid align__item">
-            <div className="register">
-              <img src={RegisterIllustration} alt="" />
-              <h2>Register</h2>
+      <Menu />
 
-              <form action="" method="post" className="form">
-                <div className="form__field">
-                  <Input
-                    size="large"
-                    placeholder="Name"
-                    suffix={
-                      <UserOutlined
-                        style={{
-                          color: "#777777",
-                        }}
-                      />
-                    }
-                  />
-                </div>
-                <div className="form__field">
-                  <Input
-                    size="large"
-                    placeholder="Email"
-                    suffix={
-                      <MailOutlined
-                        style={{
-                          color: "#777777",
-                        }}
-                      />
-                    }
-                  />
-                </div>
-                <div className="form__field">
-                  <Input.Password size="large" placeholder="Password" />
-                </div>
+      <div className="align">
+        <div className="grid align__item">
+          <div className="register">
+            <img src={RegisterIllustration} alt="" />
+            <h2>Register</h2>
 
-                <div className="form__field">
-                  <Button type="primary" block size="large">
-                    Continue
-                  </Button>
-                </div>
-              </form>
+            <form action="" method="post" className="form">
+              <div className="form__field">
+                <Input
+                  size="large"
+                  placeholder="Name"
+                  suffix={
+                    <UserOutlined
+                      style={{
+                        color: "#777777",
+                      }}
+                    />
+                  }
+                />
+              </div>
+              <div className="form__field">
+                <Input
+                  size="large"
+                  placeholder="Email"
+                  suffix={
+                    <MailOutlined
+                      style={{
+                        color: "#777777",
+                      }}
+                    />
+                  }
+                />
+              </div>
+              <div className="form__field">
+                <Input.Password size="large" placeholder="Password" />
+              </div>
 
-              <p>
-                Already a member? - <Link to="/">Signin</Link>
-              </p>
-            </div>
+              <div className="form__field">
+                <Button type="primary" block size="large">
+                  Continue
+                </Button>
+              </div>
+            </form>
+
+            <p>
+              Already a member? - <Link to="/">Signin</Link>
+            </p>
           </div>
         </div>
       </div>
+      {/* <PageFooter /> */}
     </RegisterTag>
   );
 };
@@ -71,7 +74,7 @@ const RegisterTag = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 92.5vh;
   }
   .form {
     &__field {

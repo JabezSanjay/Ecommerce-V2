@@ -4,49 +4,51 @@ import SigninIllustration from "../../assets/images/signin-illustration.svg";
 import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Menu from "../../Layout/Menu";
+// import PageFooter from "../../Layout/PageFooter";
 
 const Signin = () => {
   return (
     <SigninTag>
-      <div>
-        <div className="align">
-          <div className="grid align__item">
-            <div className="register">
-              <img src={SigninIllustration} alt="" />
-              <h2>Sign-In</h2>
+      <Menu />
+      <div className="align">
+        <div className="grid align__item">
+          <div className="register">
+            <img src={SigninIllustration} alt="" />
+            <h2>Sign-In</h2>
 
-              <form action="" method="post" className="form">
-                <div className="form__field">
-                  <Input
-                    size="large"
-                    placeholder="Email"
-                    suffix={
-                      <MailOutlined
-                        style={{
-                          color: "#777777",
-                        }}
-                      />
-                    }
-                  />
-                </div>
-                <div className="form__field">
-                  <Input.Password size="large" placeholder="Password" />
-                </div>
+            <form action="" method="post" className="form">
+              <div className="form__field">
+                <Input
+                  size="large"
+                  placeholder="Email"
+                  suffix={
+                    <MailOutlined
+                      style={{
+                        color: "#777777",
+                      }}
+                    />
+                  }
+                />
+              </div>
+              <div className="form__field">
+                <Input.Password size="large" placeholder="Password" />
+              </div>
 
-                <div className="form__field">
-                  <Button type="primary" block size="large">
-                    Continue
-                  </Button>
-                </div>
-              </form>
+              <div className="form__field">
+                <Button type="primary" block size="large">
+                  Continue
+                </Button>
+              </div>
+            </form>
 
-              <p>
-                New to Ecommerce-V2? - <Link to="/register">Register</Link>
-              </p>
-            </div>
+            <p>
+              New to Ecommerce-V2? - <Link to="/register">Register</Link>
+            </p>
           </div>
         </div>
       </div>
+      {/* <PageFooter /> */}
     </SigninTag>
   );
 };
