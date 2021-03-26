@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Input } from "antd";
 import SigninIllustration from "../../assets/images/signin-illustration.svg";
-import { UserOutlined } from "@ant-design/icons";
+import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -21,7 +21,7 @@ const Signin = () => {
                     size="large"
                     placeholder="Email"
                     suffix={
-                      <UserOutlined
+                      <MailOutlined
                         style={{
                           color: "#777777",
                         }}
@@ -35,7 +35,7 @@ const Signin = () => {
 
                 <div className="form__field">
                   <Button type="primary" block size="large">
-                    Sign In
+                    Continue
                   </Button>
                 </div>
               </form>
