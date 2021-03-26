@@ -5,6 +5,7 @@ import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Menu from "../../Layout/Menu";
+// import PageFooter from "../../Layout/PageFooter";
 
 const Register = () => {
   return (
@@ -61,6 +62,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      {/* <PageFooter /> */}
     </RegisterTag>
   );
 };

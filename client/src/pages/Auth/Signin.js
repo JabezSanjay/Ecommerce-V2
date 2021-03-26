@@ -5,6 +5,7 @@ import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Menu from "../../Layout/Menu";
+// import PageFooter from "../../Layout/PageFooter";
 
 const Signin = () => {
   return (
@@ -47,6 +48,7 @@ const Signin = () => {
           </div>
         </div>
       </div>
+      {/* <PageFooter /> */}
     </SigninTag>
   );
 };
