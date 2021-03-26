@@ -82,7 +82,7 @@ const MenuTag = styled.div`
           a {
             text-decoration: none;
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin: 0 1.2rem;
             position: relative;
             letter-spacing: 1px;
