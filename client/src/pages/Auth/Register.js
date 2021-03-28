@@ -8,7 +8,7 @@ import Menu from "../../Layout/Menu";
 // import PageFooter from "../../Layout/PageFooter";
 
 const Register = () => {
-  const SigninPage = () => {
+  const RegisterPage = () => {
     return (
       <div className="align">
         <div className="grid align__item">
@@ -48,7 +48,7 @@ const Register = () => {
               </div>
 
               <div className="form__field">
-                <Button type="dashed" block size="large">
+                <Button type="primary" block size="large">
                   Register
                 </Button>
               </div>
@@ -65,7 +65,7 @@ const Register = () => {
   return (
     <RegisterTag>
       <Menu />
-      {SigninPage()}
+      {RegisterPage()}
       {/* <PageFooter /> */}
     </RegisterTag>
   );

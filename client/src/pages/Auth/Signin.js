@@ -8,14 +8,13 @@ import Menu from "../../Layout/Menu";
 // import PageFooter from "../../Layout/PageFooter";
 
 const Signin = () => {
-  return (
-    <SigninTag>
-      <Menu />
+  const SigninPage = () => {
+    return (
       <div className="align">
         <div className="grid align__item">
           <div className="register">
             <img src={SigninIllustration} alt="" />
-            <h2>Sign-In</h2>
+            <h2>Sign In</h2>
 
             <form action="" method="post" className="form">
               <div className="form__field">
@@ -48,6 +47,12 @@ const Signin = () => {
           </div>
         </div>
       </div>
+    );
+  };
+  return (
+    <SigninTag>
+      <Menu />
+      {SigninPage()}
       {/* <PageFooter /> */}
     </SigninTag>
   );
