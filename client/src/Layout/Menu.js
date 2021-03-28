@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
+import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { Badge, Button } from "antd";
 
 const Menu = ({ history }) => {
   const [navbar, setNavbar] = useState(false);
@@ -40,6 +42,28 @@ const Menu = ({ history }) => {
               </Link>
             </li>
           </ul>
+          <div className="button-group">
+            <Button
+              shape="circle"
+              type="primary"
+              style={{ marginRight: "10px" }}
+              icon={
+                <Badge count={1} size="default">
+                  <ShoppingCartOutlined
+                    style={{ color: "#fff", fontSize: "1.5rem" }}
+                  />
+                </Badge>
+              }
+            />
+            <Button
+              shape="circle"
+              type="primary"
+              icon={
+                <UserOutlined style={{ color: "#fff", fontSize: "1.25rem" }} />
+              }
+            />
+          </div>
+
           <div
             className={navbar ? "hamburger-menu bar-change" : "hamburger-menu"}
             onClick={navbarClicked}
@@ -70,7 +94,7 @@ const MenuTag = styled.div`
       &__logo {
         font-size: 1rem;
         text-transform: uppercase;
-        letter-spacing: 5px;
+        letter-spacing: 1px;
         color: #fff;
       }
       &__links {
