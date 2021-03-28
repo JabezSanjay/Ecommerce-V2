@@ -14,7 +14,7 @@ const Register = () => {
         <div className="grid align__item">
           <div className="register">
             <img src={RegisterIllustration} alt="" />
-            <h2>Register</h2>
+            <h2>New Customer?</h2>
 
             <form action="" method="post" className="form">
               <div className="form__field">
@@ -48,8 +48,8 @@ const Register = () => {
               </div>
 
               <div className="form__field">
-                <Button type="primary" block size="large">
-                  Continue
+                <Button type="dashed" block size="large">
+                  Register
                 </Button>
               </div>
             </form>
