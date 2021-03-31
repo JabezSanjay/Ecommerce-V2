@@ -16,7 +16,7 @@ const localDb = process.env.DATABASE;
 //Middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 
 //DB Connection
 mongoose
