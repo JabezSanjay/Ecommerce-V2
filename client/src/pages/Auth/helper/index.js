@@ -13,7 +13,7 @@ export const register = (user) => {
     .then((response) => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch((message) => console.log(message));
 };
 
 export const signin = (user) => {
@@ -35,5 +35,16 @@ export const authenticate = (data, next) => {
   if (typeof window !== "undefined") {
     User.setUserDetails(data);
     next();
+  }
+};
+
+export const isAuthenticated = () => {
+  if (typeof window == "undefined") {
+    return false;
+  }
+  if (User.getUserDetails()) {
+    return User.getUserDetails();
+  } else {
+    return false;
   }
 };
