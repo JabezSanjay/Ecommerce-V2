@@ -1,15 +1,63 @@
-import React from "react";
-import { Button, Input, Form } from "antd";
+import React, { useState } from "react";
+import { Button, Input, Form, message } from "antd";
 import SigninIllustration from "../../assets/images/signin-illustration.svg";
 import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Menu from "../../Layout/Menu";
+import { authenticate, signin, isAuthenticated } from "./helper";
+import { Redirect } from "react-router-dom";
+
 // import PageFooter from "../../Layout/PageFooter";
 
 const Signin = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    error: "",
+    success: false,
+    loading: false,
+  });
+  const { email, password, loading, success, error } = values;
+  const { user } = isAuthenticated();
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
+
+  const performRedirect = () => {
+    if (success) {
+      if (user && user.role === 1) {
+        return <Redirect to="/admin/dashboard"></Redirect>;
+      } else {
+        return <Redirect to="/"></Redirect>;
+      }
+    }
+  };
+  const errorMessage = () => {
+    if (error) {
+      message.error(error);
+    }
+  };
+
+  const onFinish = () => {
+    setValues({ ...values, error: false, loading: true });
+    signin({ email, password }).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error, success: false });
+      } else {
+        authenticate(data, () => {
+          setValues({
+            ...values,
+            loading: true,
+            email: "",
+            password: "",
+            error: "",
+            success: true,
+          });
+        });
+      }
+    });
   };
 
   const SigninPage = () => {
@@ -23,7 +71,8 @@ const Signin = () => {
             <Form onFinish={onFinish}>
               <Form.Item
                 name="email"
-                labelAlign="right"
+                onChange={handleChange("email")}
+                value={email}
                 rules={[
                   {
                     required: true,
@@ -53,6 +102,8 @@ const Signin = () => {
               </Form.Item>
               <Form.Item
                 name="password"
+                onChange={handleChange("password")}
+                value={password}
                 rules={[
                   {
                     required: true,
@@ -68,7 +119,13 @@ const Signin = () => {
               </Form.Item>
 
               <div className="form__field">
-                <Button type="primary" block size="large" htmlType="submit">
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  htmlType="submit"
+                  loading={loading}
+                >
                   Continue
                 </Button>
               </div>
@@ -86,6 +143,8 @@ const Signin = () => {
     <SigninTag>
       <Menu />
       {SigninPage()}
+      {errorMessage()}
+      {performRedirect()}
       {/* <PageFooter /> */}
     </SigninTag>
   );

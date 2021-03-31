@@ -1,15 +1,59 @@
-import React from "react";
-import { Button, Input, Form } from "antd";
+import React, { useState } from "react";
+import { Button, Input, Form, message } from "antd";
 import RegisterIllustration from "../../assets/images/register-illustration.svg";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Menu from "../../Layout/Menu";
+import { register } from "./helper";
+import { Redirect } from "react-router-dom";
 // import PageFooter from "../../Layout/PageFooter";
 
 const Register = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    error: "",
+    success: false,
+    loading: false,
+  });
+
+  const { name, email, password, loading, success, error } = values;
+
+  const errorMessage = () => {
+    if (error) {
+      message.error(error);
+    }
+  };
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
+
+  const onFinish = () => {
+    setValues({ ...values, error: false, loading: true });
+    register({ name, email, password }).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error, success: false });
+      } else {
+        setValues({
+          ...values,
+          loading: true,
+          name: "",
+          email: "",
+          password: "",
+          error: "",
+          success: true,
+        });
+      }
+    });
+  };
+
+  const performRedirect = () => {
+    if (success) {
+      return <Redirect to="/signin"></Redirect>;
+    }
   };
 
   const RegisterPage = () => {
@@ -33,6 +77,8 @@ const Register = () => {
                 <Input
                   size="large"
                   placeholder="Name"
+                  onChange={handleChange("name")}
+                  value={name}
                   suffix={
                     <div className="align-center">
                       <UserOutlined
@@ -49,6 +95,8 @@ const Register = () => {
 
               <Form.Item
                 name="email"
+                onChange={handleChange("email")}
+                value={email}
                 rules={[
                   {
                     required: true,
@@ -79,6 +127,8 @@ const Register = () => {
 
               <Form.Item
                 name="password"
+                onChange={handleChange("password")}
+                value={password}
                 rules={[
                   {
                     required: true,
@@ -94,7 +144,13 @@ const Register = () => {
               </Form.Item>
 
               <div className="form__field">
-                <Button type="primary" block size="large" htmlType="submit">
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  htmlType="submit"
+                  loading={loading}
+                >
                   Register
                 </Button>
               </div>
@@ -112,6 +168,9 @@ const Register = () => {
     <RegisterTag>
       <Menu />
       {RegisterPage()}
+      {errorMessage()}
+      {performRedirect()}
+
       {/* <PageFooter /> */}
     </RegisterTag>
   );
