@@ -5,7 +5,7 @@ import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Menu from "../../Layout/Menu";
-import { signin } from "./helper";
+import { authenticate, signin } from "./helper";
 import { Redirect } from "react-router-dom";
 // import PageFooter from "../../Layout/PageFooter";
 
@@ -29,19 +29,21 @@ const Signin = () => {
     }
   };
 
-  const onFinish = (values) => {
+  const onFinish = () => {
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
-        setValues({
-          ...values,
-          loading: true,
-          email: "",
-          password: "",
-          error: "",
-          success: true,
+        authenticate(data, () => {
+          setValues({
+            ...values,
+            loading: true,
+            email: "",
+            password: "",
+            error: "",
+            success: true,
+          });
         });
       }
     });
