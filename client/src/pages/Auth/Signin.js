@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input } from "antd";
+import { Button, Input, Form } from "antd";
 import SigninIllustration from "../../assets/images/signin-illustration.svg";
 import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
@@ -8,6 +8,10 @@ import Menu from "../../Layout/Menu";
 // import PageFooter from "../../Layout/PageFooter";
 
 const Signin = () => {
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+
   const SigninPage = () => {
     return (
       <div className="align">
@@ -16,8 +20,20 @@ const Signin = () => {
             <img src={SigninIllustration} alt="" />
             <h2>Sign In</h2>
 
-            <form action="" method="post" className="form">
-              <div className="form__field">
+            <Form onFinish={onFinish}>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Email is required!",
+                  },
+                  {
+                    type: "email",
+                    message: "Please enter a valid E-mail!",
+                  },
+                ]}
+              >
                 <Input
                   size="large"
                   placeholder="Email"
@@ -29,17 +45,29 @@ const Signin = () => {
                     />
                   }
                 />
-              </div>
-              <div className="form__field">
+              </Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Password is required!",
+                  },
+                  {
+                    min: 6,
+                    message: "Password must be atleast 6 in length!",
+                  },
+                ]}
+              >
                 <Input.Password size="large" placeholder="Password" />
-              </div>
+              </Form.Item>
 
               <div className="form__field">
-                <Button type="primary" block size="large">
+                <Button type="primary" block size="large" htmlType="submit">
                   Continue
                 </Button>
               </div>
-            </form>
+            </Form>
 
             <p>
               New to Ecommerce-V2? - <Link to="/register">Register</Link>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input } from "antd";
+import { Button, Input, Form } from "antd";
 import RegisterIllustration from "../../assets/images/register-illustration.svg";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
@@ -8,6 +8,10 @@ import Menu from "../../Layout/Menu";
 // import PageFooter from "../../Layout/PageFooter";
 
 const Register = () => {
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+
   const RegisterPage = () => {
     return (
       <div className="align">
@@ -16,8 +20,16 @@ const Register = () => {
             <img src={RegisterIllustration} alt="" />
             <h2>New Customer?</h2>
 
-            <form action="" method="post" className="form">
-              <div className="form__field">
+            <Form onFinish={onFinish}>
+              <Form.Item
+                name="userName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Username is required!",
+                  },
+                ]}
+              >
                 <Input
                   size="large"
                   placeholder="Name"
@@ -29,8 +41,21 @@ const Register = () => {
                     />
                   }
                 />
-              </div>
-              <div className="form__field">
+              </Form.Item>
+
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Email is required!",
+                  },
+                  {
+                    type: "email",
+                    message: "Please enter a valid E-mail!",
+                  },
+                ]}
+              >
                 <Input
                   size="large"
                   placeholder="Email"
@@ -42,17 +67,30 @@ const Register = () => {
                     />
                   }
                 />
-              </div>
-              <div className="form__field">
+              </Form.Item>
+
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Password is required!",
+                  },
+                  {
+                    min: 6,
+                    message: "Password must be atleast 6 in length!",
+                  },
+                ]}
+              >
                 <Input.Password size="large" placeholder="Password" />
-              </div>
+              </Form.Item>
 
               <div className="form__field">
-                <Button type="primary" block size="large">
+                <Button type="primary" block size="large" htmlType="submit">
                   Register
                 </Button>
               </div>
-            </form>
+            </Form>
 
             <p>
               Already a member? - <Link to="/signin">Signin</Link>
