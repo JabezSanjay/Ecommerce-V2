@@ -34,11 +34,15 @@ const Register = () => {
                   size="large"
                   placeholder="Name"
                   suffix={
-                    <UserOutlined
-                      style={{
-                        color: "#777777",
-                      }}
-                    />
+                    <div className="align-center">
+                      <UserOutlined
+                        style={{
+                          color: "#777777",
+                          marginRight: "5px",
+                        }}
+                      />
+                      <p>*</p>
+                    </div>
                   }
                 />
               </Form.Item>
@@ -60,11 +64,15 @@ const Register = () => {
                   size="large"
                   placeholder="Email"
                   suffix={
-                    <MailOutlined
-                      style={{
-                        color: "#777777",
-                      }}
-                    />
+                    <div className="align-center">
+                      <MailOutlined
+                        style={{
+                          color: "#777777",
+                          marginRight: "5px",
+                        }}
+                      />
+                      <p>*</p>
+                    </div>
                   }
                 />
               </Form.Item>
