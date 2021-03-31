@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input, Form } from "antd";
+import { Button, Input, Form, message } from "antd";
 import RegisterIllustration from "../../assets/images/register-illustration.svg";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
@@ -19,7 +19,13 @@ const Register = () => {
     loading: false,
   });
 
-  const { name, email, password, loading, success } = values;
+  const { name, email, password, loading, success, error } = values;
+
+  const errorMessage = () => {
+    if (error) {
+      message.error(error);
+    }
+  };
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -162,7 +168,9 @@ const Register = () => {
     <RegisterTag>
       <Menu />
       {RegisterPage()}
+      {errorMessage()}
       {performRedirect()}
+
       {/* <PageFooter /> */}
     </RegisterTag>
   );
