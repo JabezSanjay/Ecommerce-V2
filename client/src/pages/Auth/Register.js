@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Menu from "../../Layout/Menu";
 import { register } from "./helper";
+import { Redirect } from "react-router-dom";
 // import PageFooter from "../../Layout/PageFooter";
 
 const Register = () => {
@@ -18,31 +19,35 @@ const Register = () => {
     loading: false,
   });
 
-  const { name, email, password, loading } = values;
+  const { name, email, password, loading, success } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
-  const onFinish = (userValue) => {
+  const onFinish = () => {
     setValues({ ...values, error: false, loading: true });
-    register({ name, email, password })
-      .then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error, success: false });
-        } else {
-          setValues({
-            ...values,
-            name: "",
-            email: "",
-            password: "",
-            error: "",
-            success: true,
-            loading: true,
-          });
-        }
-      })
-      .catch();
+    register({ name, email, password }).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error, success: false });
+      } else {
+        setValues({
+          ...values,
+          loading: true,
+          name: "",
+          email: "",
+          password: "",
+          error: "",
+          success: true,
+        });
+      }
+    });
+  };
+
+  const performRedirect = () => {
+    if (success) {
+      return <Redirect to="/signin"></Redirect>;
+    }
   };
 
   const RegisterPage = () => {
@@ -157,6 +162,7 @@ const Register = () => {
     <RegisterTag>
       <Menu />
       {RegisterPage()}
+      {performRedirect()}
       {/* <PageFooter /> */}
     </RegisterTag>
   );
