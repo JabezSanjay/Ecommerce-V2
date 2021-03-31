@@ -15,7 +15,7 @@ exports.register = (req, res) => {
   user.save((error, user) => {
     if (error) {
       return res.status(400).json({
-        error: "Unable to save user!",
+        error: "User already exists!",
       });
     }
     res.json({

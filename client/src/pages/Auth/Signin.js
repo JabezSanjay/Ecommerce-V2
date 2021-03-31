@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Button, Input, Form } from "antd";
+import { Button, Input, Form, message } from "antd";
 import SigninIllustration from "../../assets/images/signin-illustration.svg";
 import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Menu from "../../Layout/Menu";
-import { authenticate, signin } from "./helper";
+import { authenticate, signin, isAuthenticated } from "./helper";
 import { Redirect } from "react-router-dom";
+
 // import PageFooter from "../../Layout/PageFooter";
 
 const Signin = () => {
@@ -17,7 +18,8 @@ const Signin = () => {
     success: false,
     loading: false,
   });
-  const { email, password, loading, success } = values;
+  const { email, password, loading, success, error } = values;
+  const { user } = isAuthenticated();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -25,7 +27,16 @@ const Signin = () => {
 
   const performRedirect = () => {
     if (success) {
-      return <Redirect to="/"></Redirect>;
+      if (user && user.role === 1) {
+        return <Redirect to="/admin/dashboard"></Redirect>;
+      } else {
+        return <Redirect to="/"></Redirect>;
+      }
+    }
+  };
+  const errorMessage = () => {
+    if (error) {
+      message.error(error);
     }
   };
 
@@ -132,6 +143,7 @@ const Signin = () => {
     <SigninTag>
       <Menu />
       {SigninPage()}
+      {errorMessage()}
       {performRedirect()}
       {/* <PageFooter /> */}
     </SigninTag>
