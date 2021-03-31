@@ -146,13 +146,11 @@ button:focus {
   outline: none;
 }
 
-.pagination {
-  margin-right: 22px;
+.align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-.error-message {
-  font-size: 14px;
+.align-center p {
   color: red;
-  position: relative;
-  left: 7px;
 }
