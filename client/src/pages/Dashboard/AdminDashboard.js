@@ -1,13 +1,13 @@
 import React from "react";
 import Menu from "../../Layout/Menu";
 
-const UserDashboard = () => {
+const AdminDashboard = () => {
   return (
     <div>
       <Menu />
-      User Dashboard
+      Admin Dashboard
     </div>
   );
 };
 
-export default UserDashboard;
+export default AdminDashboard;

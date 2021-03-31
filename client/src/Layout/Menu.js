@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
-import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
-import { Badge, Button } from "antd";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Avatar, Badge, Button, message } from "antd";
+import { isAuthenticated, signout } from "../pages/Auth/helper";
 
 const Menu = ({ history }) => {
+  const { user } = isAuthenticated();
   const [navbar, setNavbar] = useState(false);
 
   const navbarClicked = () => {
@@ -25,22 +27,57 @@ const Menu = ({ history }) => {
                 Home
               </Link>
             </li>
-            <li>
-              <Link to="/signin" onClick={navbarClicked}>
-                Sign In
-              </Link>
-            </li>
+            {!user && (
+              <li>
+                <Link to="/signin" onClick={navbarClicked}>
+                  Sign In
+                </Link>
+              </li>
+            )}
 
-            <li>
-              <Link to="/register" onClick={navbarClicked}>
-                Register
-              </Link>
-            </li>
+            {!user && (
+              <li>
+                <Link to="/register" onClick={navbarClicked}>
+                  Register
+                </Link>
+              </li>
+            )}
+
+            {user && user.role === 1 && (
+              <li>
+                <Link to="/admin/dashboard" onClick={navbarClicked}>
+                  Dashboard
+                </Link>
+              </li>
+            )}
+            {user && user.role === 0 && (
+              <li>
+                <Link to="/user/dashboard" onClick={navbarClicked}>
+                  Dashboard
+                </Link>
+              </li>
+            )}
             <li>
               <Link to="/cart" onClick={navbarClicked}>
                 Cart
               </Link>
             </li>
+
+            {user && (
+              <li>
+                <Link
+                  to="/"
+                  onClick={() => {
+                    signout(() => {
+                      history.push("/");
+                      message.success("Signout successful!");
+                    });
+                  }}
+                >
+                  Signout
+                </Link>
+              </li>
+            )}
           </ul>
           <div className="button-group">
             <Button
@@ -48,7 +85,7 @@ const Menu = ({ history }) => {
               type="primary"
               style={{ marginRight: "10px" }}
               icon={
-                <Badge count={1} size="default">
+                <Badge count={1} size="small">
                   <ShoppingCartOutlined
                     style={{ color: "#fff", fontSize: "1.5rem" }}
                   />
@@ -58,8 +95,17 @@ const Menu = ({ history }) => {
             <Button
               shape="circle"
               type="primary"
+              size="large"
+              style={{ marginBottom: "15px" }}
               icon={
-                <UserOutlined style={{ color: "#fff", fontSize: "1.25rem" }} />
+                <Avatar
+                  style={{
+                    backgroundColor: "#f56a00",
+                  }}
+                  size="large"
+                >
+                  {(user && user.name) || "GUEST"}
+                </Avatar>
               }
             />
           </div>
@@ -81,6 +127,14 @@ export default withRouter(Menu);
 
 const MenuTag = styled.div`
   .header {
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      p {
+        font-size: 0.7rem;
+      }
+    }
     .navbar {
       padding: 0 2rem;
       display: flex;
