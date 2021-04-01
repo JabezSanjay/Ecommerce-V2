@@ -1,10 +1,10 @@
 import React from "react";
-import Menu from "../../Layout/Menu";
+import Navbar from "../../Layout/Navbar";
 
 const CartPage = () => {
   return (
     <div>
-      <Menu />
+      <Navbar />
     </div>
   );
 };

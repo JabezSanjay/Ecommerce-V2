@@ -1,10 +1,10 @@
 import React from "react";
-import Menu from "../../Layout/Menu";
+import Navbar from "../../Layout/Navbar";
 
 const UserDashboard = () => {
   return (
     <div>
-      <Menu />
+      <Navbar />
       User Dashboard
     </div>
   );

@@ -5,7 +5,7 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Avatar, Badge, Button, message } from "antd";
 import { isAuthenticated, signout } from "../pages/Auth/helper";
 
-const Menu = ({ history }) => {
+const Navbar = ({ history }) => {
   const { user } = isAuthenticated();
   const [navbar, setNavbar] = useState(false);
 
@@ -123,7 +123,7 @@ const Menu = ({ history }) => {
   return <MenuTag>{navbarComponent()}</MenuTag>;
 };
 
-export default withRouter(Menu);
+export default withRouter(Navbar);
 
 const MenuTag = styled.div`
   .header {

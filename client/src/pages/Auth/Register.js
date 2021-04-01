@@ -4,7 +4,7 @@ import RegisterIllustration from "../../assets/images/register-illustration.svg"
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Menu from "../../Layout/Menu";
+import Navbar from "../../Layout/Navbar";
 import { register } from "./helper";
 import { Redirect } from "react-router-dom";
 // import PageFooter from "../../Layout/PageFooter";
@@ -166,7 +166,7 @@ const Register = () => {
   };
   return (
     <RegisterTag>
-      <Menu />
+      <Navbar />
       {RegisterPage()}
       {errorMessage()}
       {performRedirect()}

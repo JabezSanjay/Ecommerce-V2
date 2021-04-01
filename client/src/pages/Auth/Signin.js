@@ -4,7 +4,7 @@ import SigninIllustration from "../../assets/images/signin-illustration.svg";
 import { MailOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Menu from "../../Layout/Menu";
+import Navbar from "../../Layout/Navbar";
 import { authenticate, signin, isAuthenticated } from "./helper";
 import { Redirect } from "react-router-dom";
 
@@ -141,7 +141,7 @@ const Signin = () => {
   };
   return (
     <SigninTag>
-      <Menu />
+      <Navbar />
       {SigninPage()}
       {errorMessage()}
       {performRedirect()}
