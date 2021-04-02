@@ -1,12 +1,12 @@
 import React from "react";
 import AdminSider from "../../components/AdminSider";
 
-const AdminDashboard = () => {
+const Users = () => {
   return (
     <div>
-      <AdminSider selectedKey="1" />
+      <AdminSider selectedKey="4" />
     </div>
   );
 };
 
-export default AdminDashboard;
+export default Users;

@@ -1,12 +1,12 @@
 import React from "react";
 import AdminSider from "../../components/AdminSider";
 
-const AdminDashboard = () => {
+const Categories = () => {
   return (
     <div>
-      <AdminSider selectedKey="1" />
+      <AdminSider selectedKey="2" />
     </div>
   );
 };
 
-export default AdminDashboard;
+export default Categories;
