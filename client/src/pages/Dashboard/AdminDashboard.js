@@ -1,41 +1,47 @@
 import React from "react";
 import { Menu, Layout } from "antd";
 import {
-  TeamOutlined,
-  FileOutlined,
+  PartitionOutlined,
   PieChartOutlined,
-  DesktopOutlined,
+  ShopOutlined,
+  SkinOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import Navbar from "../../Layout/Navbar";
+import { Link } from "react-router-dom";
 
-const { Header, Sider, Content } = Layout;
-
-const { SubMenu } = Menu;
+const { Sider } = Layout;
 
 const AdminDashboard = () => {
   return (
     <>
       <Navbar />
-      <Sider collapsed={true} style={{ paddingTop: "7.5vh" }}>
-        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+      <Sider
+        style={{ paddingTop: "7.5vh" }}
+        breakpoint="sm"
+        collapsible
+        theme="light"
+      >
+        <Menu
+          defaultSelectedKeys={["1"]}
+          mode="vertical"
+          style={{ minHeight: "92.5vh" }}
+        >
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            Option 1
+            <Link to="/admin/dashboard">Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<DesktopOutlined />}>
-            Option 2
+          <Menu.Item key="2" icon={<PartitionOutlined />}>
+            <Link to="/admin/dashboard">Manage Categories</Link>
           </Menu.Item>
-          <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-            <Menu.Item key="3">Tom</Menu.Item>
-            <Menu.Item key="4">Bill</Menu.Item>
-            <Menu.Item key="5">Alex</Menu.Item>
-          </SubMenu>
-          <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-            <Menu.Item key="6">Team 1</Menu.Item>
-            <Menu.Item key="8">Team 2</Menu.Item>
-          </SubMenu>
-          <Menu.Item key="9" icon={<FileOutlined />}>
-            Files
+          <Menu.Item key="3" icon={<SkinOutlined />}>
+            <Link to="/admin/dashboard">Manage Products</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<UserOutlined />}>
+            <Link to="/admin/dashboard">Users</Link>
+          </Menu.Item>
+
+          <Menu.Item key="5" icon={<ShopOutlined />}>
+            <Link to="/admin/dashboard">Orders</Link>
           </Menu.Item>
         </Menu>
       </Sider>
