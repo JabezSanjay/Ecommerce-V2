@@ -19,7 +19,7 @@ const AdminSider = ({ selectedKey }) => {
       <Navbar />
       <Sider
         style={{ paddingTop: "7.5vh" }}
-        breakpoint="sm"
+        breakpoint="md"
         collapsible
         theme="light"
       >
