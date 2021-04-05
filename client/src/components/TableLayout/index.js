@@ -1,6 +1,5 @@
 import { Col, Table } from "antd";
 import React from "react";
-import styled from "styled-components";
 
 const TableLayout = ({ dataSource, columns, tab }) => {
   return (
