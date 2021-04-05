@@ -1,54 +1,65 @@
-import { Col, Row, Table } from "antd";
+import { Col, Row, Button } from "antd";
 import React from "react";
-import AdminSider from "../../components/AdminSider";
+import AdminSider from "../../components/Sider";
+import TableLayout from "../../components/TableLayout";
 
 const Categories = () => {
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
-
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      render: (text) => <h4>{text}</h4>,
     },
     {
       title: "Age",
       dataIndex: "age",
       key: "age",
     },
+
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Action",
+      key: "action",
+      render: (text, record) => (
+        <div>
+          <Button type="link">Edit</Button>
+          <Button type="link" danger>
+            Delete
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+  const dataSource = [
+    {
+      key: "1",
+      name: "John Brown",
+      age: 32,
+    },
+    {
+      key: "2",
+      name: "Jim Green",
+      age: 42,
+    },
+    {
+      key: "3",
+      name: "Joe Black",
+      age: 32,
     },
   ];
 
   return (
     <div>
       <Row>
-        <Col xl={4} lg={6} md={7} sm={4} xs={6}>
+        <Col>
           <AdminSider selectedKey="2" />
         </Col>
-        <Col xl={19} lg={18} md={17} sm={20} xs={18}>
-          <Table
-            style={{ marginTop: "10vh" }}
-            dataSource={dataSource}
-            columns={columns}
-          />
-        </Col>
+        <TableLayout
+          columns={columns}
+          dataSource={dataSource}
+          tab={"Categories"}
+        />
       </Row>
     </div>
   );

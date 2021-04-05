@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 
-import Navbar from "../Layout/Navbar";
+import Navbar from "../../Layout/Navbar";
 import { Link } from "react-router-dom";
 
 const { Sider } = Layout;

@@ -154,3 +154,8 @@ button:focus {
 .align-center p {
   color: red;
 }
+
+.table-header {
+  font-size: 1.5rem;
+  margin-bottom: 1em;
+}

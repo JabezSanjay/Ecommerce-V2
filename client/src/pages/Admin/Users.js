@@ -1,5 +1,5 @@
 import React from "react";
-import AdminSider from "../../components/AdminSider";
+import AdminSider from "../../components/Sider";
 
 const Users = () => {
   return (
