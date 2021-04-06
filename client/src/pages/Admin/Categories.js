@@ -1,18 +1,24 @@
-import { Col, Row, Button, message } from "antd";
+import { Col, Row, Button, message, Popconfirm } from "antd";
 import React, { useEffect, useState } from "react";
 import AdminSider from "../../components/Sider";
 import TableLayout from "../../components/TableLayout";
-import { getAllCategories } from "./helper";
+import { getAllCategories, deleteCategory } from "./helper";
 import Sidebar from "../../components/Sidebar/CategorySidebar";
+import { isAuthenticated } from "../Auth/helper";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [openCreateCategorySidebar, setCreateOpenCategorySidebar] = useState(
+    false
+  );
+  const [openEditCategorySidebar, setEditOpenCategorySidebar] = useState(false);
+  const [categoryId, setCategoryId] = useState("");
 
-  const [openCategorySidebar, setOpenCategorySidebar] = useState(false);
-
-  useEffect(() => {
+  const { user, token } = isAuthenticated();
+  const preload = () => {
     getAllCategories().then((data) => {
       if (data.error) {
         setError(data.error);
@@ -20,7 +26,26 @@ const Categories = () => {
         setCategories(data);
       }
     });
-  }, []);
+  };
+  useEffect(() => {
+    preload();
+  }, [reload]);
+
+  const onClickEdit = (record) => {
+    setCategoryId(record._id);
+    setEditOpenCategorySidebar(true);
+  };
+
+  const deleteThisCategory = (productId) => {
+    deleteCategory(productId, user._id, token).then((data) => {
+      if (data.error) {
+        setError(error);
+      } else {
+        message.success("Category deleted!");
+        preload();
+      }
+    });
+  };
 
   const columns = [
     {
@@ -33,12 +58,25 @@ const Categories = () => {
     {
       title: "Action",
       key: "action",
-      render: (text, record) => (
+      render: (record) => (
         <div>
-          <Button type="link">Edit</Button>
-          <Button type="link" danger>
-            Delete
+          <Button
+            type="link"
+            onClick={() => {
+              onClickEdit(record);
+            }}
+          >
+            Edit
           </Button>
+
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => deleteThisCategory(record._id)}
+          >
+            <Button type="link" danger>
+              Delete
+            </Button>
+          </Popconfirm>
         </div>
       ),
     },
@@ -56,18 +94,36 @@ const Categories = () => {
           columns={columns}
           dataSource={dataSource}
           tab="Categories"
-          state={() => setOpenCategorySidebar(!openCategorySidebar)}
+          state={() => setCreateOpenCategorySidebar(!openCreateCategorySidebar)}
+          success={success}
+          setSuccess={(value) => setSuccess(value)}
         />
       </Row>
-      {error ? message.error(error) : <div></div>}
-      {openCategorySidebar && (
+      {error && message.error(error)}
+
+      {openCreateCategorySidebar && (
         <Sidebar
-          visible={openCategorySidebar}
-          onClose={(value) => setOpenCategorySidebar(value)}
+          visible={openCreateCategorySidebar}
+          onClose={(value) => setCreateOpenCategorySidebar(value)}
           success={(value) => setSuccess(value)}
+          setReload={setReload}
+          reload={reload}
+          edit={false}
+          create={true}
         />
       )}
-      {success && message.success("Successful operation!")}
+      {openEditCategorySidebar && (
+        <Sidebar
+          visible={openEditCategorySidebar}
+          onClose={(value) => setEditOpenCategorySidebar(value)}
+          success={(value) => setSuccess(value)}
+          setReload={setReload}
+          reload={reload}
+          edit={true}
+          create={false}
+          id={categoryId}
+        />
+      )}
     </div>
   );
 };

@@ -1,24 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer, Form, Input, Button, message } from "antd";
-import { createCategory } from "../../pages/Admin/helper";
+import {
+  createCategory,
+  getaCategory,
+  updateCategory,
+} from "../../pages/Admin/helper";
 import { isAuthenticated } from "../../pages/Auth/helper";
 
-const Siderbar = ({ visible, onClose, success }) => {
+const Siderbar = ({
+  visible,
+  onClose,
+  success,
+  reload,
+  setReload,
+  create,
+  edit,
+  id,
+}) => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const { user, token } = isAuthenticated();
+
+  const preload = (id) => {
+    getaCategory(id).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setName(data.name);
+      }
+    });
+  };
+
+  useEffect(() => {
+    edit ? preload(id) : <div></div>;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const Close = (value) => {
     onClose(value);
   };
-  const onSubmit = () => {
+
+  const onCreateSubmit = () => {
     setError("");
     success(false);
     setLoading(!loading);
 
     //backend request
-    createCategory(user._id, token, { name }).then((data) => {
+    createCategory(user._id, token, JSON.stringify({ name })).then((data) => {
+      setReload(!reload);
       if (data.error) {
         setError(true);
       } else {
@@ -29,21 +59,35 @@ const Siderbar = ({ visible, onClose, success }) => {
     });
     onClose(false);
   };
+
+  const onSubmitEdit = (event) => {
+    setLoading(true);
+    updateCategory(id, user._id, token, name).then((data) => {
+      setReload(!reload);
+      if (data.error) {
+        message.error(error);
+      } else {
+        setName(data.name);
+        onClose(false);
+      }
+    });
+  };
+
   return (
     <>
-      <Drawer
-        title="Create a new category"
-        width={300}
-        visible={visible}
-        onClose={() => Close(false)}
-      >
-        <Form layout="vertical" size="large" onFinish={onSubmit}>
+      <Drawer width={300} visible={visible} onClose={() => Close(false)}>
+        <Form
+          layout="vertical"
+          size="large"
+          onFinish={create ? onCreateSubmit : onSubmitEdit}
+        >
           <Form.Item
             name="name"
             label="Category name"
             rules={[{ required: true, message: "Please enter a name!" }]}
           >
             <Input
+              value={name}
               placeholder="Enter a category name"
               onChange={(e) => {
                 setName(e.target.value);
@@ -51,15 +95,27 @@ const Siderbar = ({ visible, onClose, success }) => {
             />
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              size="large"
-              htmlType="submit"
-              loading={loading}
-              block
-            >
-              Create
-            </Button>
+            {create ? (
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                loading={loading}
+                block
+              >
+                Create
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                loading={loading}
+                block
+              >
+                Edit
+              </Button>
+            )}
           </Form.Item>
         </Form>
       </Drawer>

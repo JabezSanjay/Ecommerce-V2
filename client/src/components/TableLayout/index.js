@@ -1,7 +1,20 @@
-import { Row, Col, Table, Button } from "antd";
+import { Row, Col, Table, Button, message } from "antd";
 import React from "react";
 
-const TableLayout = ({ dataSource, columns, tab, loading, state }) => {
+const TableLayout = ({
+  dataSource,
+  columns,
+  tab,
+  loading,
+  state,
+  setReload = (f) => f,
+  reload = undefined,
+  success,
+  setSuccess,
+}) => {
+  message.config({
+    maxCount: 1,
+  });
   return (
     <Col
       xl={19}
@@ -28,6 +41,7 @@ const TableLayout = ({ dataSource, columns, tab, loading, state }) => {
         pagination={false}
         loading={loading}
       />
+      {success && message.success("Successful operation!") && setSuccess(false)}
     </Col>
   );
 };
