@@ -37,7 +37,7 @@ const Siderbar = ({ visible, onClose, success }) => {
         visible={visible}
         onClose={() => Close(false)}
       >
-        <Form layout="vertical" size="large">
+        <Form layout="vertical" size="large" onFinish={onSubmit}>
           <Form.Item
             name="name"
             label="Category name"
@@ -55,7 +55,6 @@ const Siderbar = ({ visible, onClose, success }) => {
               type="primary"
               size="large"
               htmlType="submit"
-              onClick={onSubmit}
               loading={loading}
               block
             >
