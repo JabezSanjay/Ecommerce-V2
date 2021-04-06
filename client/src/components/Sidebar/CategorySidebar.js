@@ -34,8 +34,7 @@ const Siderbar = ({
 
   useEffect(() => {
     edit ? preload(id) : <div></div>;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [edit, id]);
 
   const Close = (value) => {
     onClose(value);
@@ -47,7 +46,7 @@ const Siderbar = ({
     setLoading(!loading);
 
     //backend request
-    createCategory(user._id, token, JSON.stringify({ name })).then((data) => {
+    createCategory(user._id, token, { name }).then((data) => {
       setReload(!reload);
       if (data.error) {
         setError(true);
@@ -62,12 +61,13 @@ const Siderbar = ({
 
   const onSubmitEdit = (event) => {
     setLoading(true);
-    updateCategory(id, user._id, token, name).then((data) => {
+    updateCategory(id, user._id, token, { name }).then((data) => {
       setReload(!reload);
       if (data.error) {
-        message.error(error);
+        setError(true);
       } else {
         setName(data.name);
+        success(true);
         onClose(false);
       }
     });
@@ -80,6 +80,12 @@ const Siderbar = ({
           layout="vertical"
           size="large"
           onFinish={create ? onCreateSubmit : onSubmitEdit}
+          fields={[
+            {
+              name: ["name"],
+              value: name,
+            },
+          ]}
         >
           <Form.Item
             name="name"
@@ -87,7 +93,7 @@ const Siderbar = ({
             rules={[{ required: true, message: "Please enter a name!" }]}
           >
             <Input
-              value={name}
+              name="name"
               placeholder="Enter a category name"
               onChange={(e) => {
                 setName(e.target.value);
