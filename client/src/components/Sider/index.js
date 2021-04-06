@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 
-import Navbar from "../Layout/Navbar";
+import Navbar from "../../Layout/Navbar";
 import { Link } from "react-router-dom";
 
 const { Sider } = Layout;
@@ -19,7 +19,7 @@ const AdminSider = ({ selectedKey }) => {
       <Navbar />
       <Sider
         style={{ paddingTop: "7.5vh" }}
-        breakpoint="sm"
+        breakpoint="md"
         collapsible
         theme="light"
       >
