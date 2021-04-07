@@ -99,7 +99,7 @@ exports.createProduct = (req, res) => {
 
 exports.getAllProducts = (req, res) => {
   Product.find()
-    .populate("category")
+    .populate("category", "_id name")
     .exec((err, products) => {
       if (err) {
         return res.status(400).json({

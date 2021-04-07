@@ -70,3 +70,14 @@ export const deleteCategory = (categoryId, userId, token) => {
     })
     .catch((err) => console.log(err));
 };
+
+//get all products
+export const getAllProducts = () => {
+  return fetch(`${API}/products/all`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
