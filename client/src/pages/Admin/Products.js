@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Row, Col, Table } from "antd";
+import { Button, Popconfirm, Row, Col, Table, message } from "antd";
 import React, { useState, useEffect } from "react";
 import { getAllProducts } from "../Admin/helper";
 import AdminSider from "../../components/Sider";
@@ -69,7 +69,6 @@ const Products = () => {
   ];
 
   const dataSource = products;
-  console.log(products);
 
   return (
     <div>
@@ -84,6 +83,7 @@ const Products = () => {
           expandableValues={{ expandedRowRender }}
         />
       </Row>
+      {error && message.error(error)}
     </div>
   );
 };
