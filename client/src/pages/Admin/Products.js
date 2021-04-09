@@ -40,8 +40,7 @@ const Products = () => {
       },
     ];
 
-    const data = products;
-    return <Table columns={columns} dataSource={data} pagination={false} />;
+    return <Table columns={columns} dataSource={products} pagination={false} />;
   };
 
   const columns = [

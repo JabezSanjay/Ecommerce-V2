@@ -82,8 +82,6 @@ const Categories = () => {
     },
   ];
 
-  const dataSource = categories;
-
   return (
     <div>
       <Row>
@@ -92,7 +90,7 @@ const Categories = () => {
         </Col>
         <TableLayout
           columns={columns}
-          dataSource={dataSource}
+          dataSource={categories}
           tab="Categories"
           state={() => setCreateOpenCategorySidebar(!openCreateCategorySidebar)}
           success={success}
