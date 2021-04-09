@@ -11,6 +11,7 @@ const TableLayout = ({
   reload = undefined,
   success,
   setSuccess,
+  expandableValues,
 }) => {
   message.config({
     maxCount: 1,
@@ -35,12 +36,22 @@ const TableLayout = ({
         </Col>
       </Row>
 
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-        loading={loading}
-      />
+      {expandableValues ? (
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={true}
+          loading={loading}
+          expandable={expandableValues}
+        />
+      ) : (
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={true}
+          loading={loading}
+        />
+      )}
       {success && message.success("Successful operation!") && setSuccess(false)}
     </Col>
   );
