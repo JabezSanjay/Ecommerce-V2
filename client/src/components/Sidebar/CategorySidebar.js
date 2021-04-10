@@ -7,7 +7,7 @@ import {
 } from "../../pages/Admin/helper";
 import { isAuthenticated } from "../../pages/Auth/helper";
 
-const Siderbar = ({
+const CategorySidebar = ({
   visible,
   onClose,
   success,
@@ -130,4 +130,4 @@ const Siderbar = ({
   );
 };
 
-export default Siderbar;
+export default CategorySidebar;

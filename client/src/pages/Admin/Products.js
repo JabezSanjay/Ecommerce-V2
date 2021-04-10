@@ -3,10 +3,15 @@ import React, { useState, useEffect } from "react";
 import { getAllProducts } from "../Admin/helper";
 import AdminSider from "../../components/Sider";
 import TableLayout from "../../components/TableLayout";
+import Sidebar from "../../components/Sidebar/ProductSidebar";
 
 const Products = () => {
   const [error, setError] = useState("");
   const [products, setProducts] = useState([]);
+  const [reload, setReload] = useState(false);
+  const [openCreateProductSidebar, setCreateOpenProductSidebar] = useState(
+    false
+  );
 
   useEffect(() => {
     getAllProducts().then((data) => {
@@ -81,9 +86,20 @@ const Products = () => {
           dataSource={dataSource}
           tab="Products"
           expandableValues={{ expandedRowRender }}
+          state={() => setCreateOpenProductSidebar(!openCreateProductSidebar)}
         />
       </Row>
       {error && message.error(error)}
+      {openCreateProductSidebar && (
+        <Sidebar
+          visible={openCreateProductSidebar}
+          onClose={(value) => setCreateOpenProductSidebar(value)}
+          setReload={setReload}
+          reload={reload}
+          edit={false}
+          create={true}
+        />
+      )}
     </div>
   );
 };
