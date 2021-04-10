@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawer, Form, Input, Button, message } from "antd";
+import { Drawer, Form, Input } from "antd";
 
 const ProductSidebar = ({ visible, onClose }) => {
   const Close = (value) => {
