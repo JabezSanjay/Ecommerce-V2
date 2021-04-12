@@ -71,10 +71,26 @@ export const deleteCategory = (categoryId, userId, token) => {
     .catch((err) => console.log(err));
 };
 
-//get all products
+//Get all products
 export const getAllProducts = () => {
   return fetch(`${API}/products/all`, {
     method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+//Create a product
+export const createProduct = (userId, token, product) => {
+  return fetch(`${API}/product/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: product,
   })
     .then((response) => {
       return response.json();
