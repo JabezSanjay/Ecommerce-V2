@@ -13,6 +13,8 @@ const Products = () => {
     false
   );
 
+  console.log(products);
+
   useEffect(() => {
     getAllProducts().then((data) => {
       if (data.error) {
@@ -28,19 +30,19 @@ const Products = () => {
       {
         title: "Price",
         dataIndex: "price",
-        key: "_id",
+        key: "price",
         render: (text) => <h4>₹ {text}</h4>,
       },
       {
         title: "Sold",
         dataIndex: "sold",
-        key: "_id",
+        key: "sold",
         render: (text) => <h4>{text}</h4>,
       },
       {
         title: "Stock",
         dataIndex: "stock",
-        key: "_id",
+        key: "stock",
         render: (text) => <h4>{text}</h4>,
       },
     ];
