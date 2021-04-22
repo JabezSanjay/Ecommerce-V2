@@ -48,7 +48,6 @@ const ProductSidebar = ({ visible, onClose }) => {
 
   const preload = () => {
     getAllCategories().then((data) => {
-      //console.log(data);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -87,26 +86,29 @@ const ProductSidebar = ({ visible, onClose }) => {
   };
 
   const handleChange = (name) => (event) => {
+    console.log(event.target.value);
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
-    console.log(formData);
-  };
-  const handleCategoryChange = (value) => {
-    setValues({ ...values, category: value });
-    formData.set(category, value);
   };
 
-  // const props = {
-  //   onChange(info) {
-  //     console.log(info);
-  //     if (info.file.status === "done") {
-  //       message.success(`${info.file.name} file uploaded successfully`);
-  //     } else if (info.file.status === "error") {
-  //       message.error(`${info.file.name} file upload failed.`);
-  //     }
-  //   },
-  // };
+  const handleCategoryChange = (value) => {
+    formData.set(category, value);
+    setValues({ ...values, category: value });
+  };
+
+  const props = {
+    onChange(info) {
+      console.log(info);
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
+  console.log(formData);
 
   return (
     <>
@@ -194,7 +196,13 @@ const ProductSidebar = ({ visible, onClose }) => {
               value={photo}
             />
           </Form.Item>
-          <Button type="primary" block size="large" htmlType="submit">
+          <Button
+            type="primary"
+            block
+            size="large"
+            htmlType="submit"
+            loading={loading}
+          >
             Create
           </Button>
         </Form>
