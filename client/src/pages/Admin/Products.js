@@ -1,9 +1,10 @@
 import { Button, Popconfirm, Row, Col, message } from "antd";
 import React, { useState, useEffect } from "react";
-import { getAllProducts } from "../Admin/helper";
+import { deleteProduct, getAllProducts } from "../Admin/helper";
 import AdminSider from "../../components/Sider";
 import TableLayout from "../../components/TableLayout";
 import Sidebar from "../../components/Sidebar/ProductSidebar";
+import { isAuthenticated } from "../Auth/helper";
 
 const Products = () => {
   const [error, setError] = useState("");
@@ -12,8 +13,7 @@ const Products = () => {
   const [openCreateProductSidebar, setCreateOpenProductSidebar] = useState(
     false
   );
-
-  useEffect(() => {
+  const preload = () => {
     getAllProducts().then((data) => {
       if (data.error) {
         setError(data.error);
@@ -21,7 +21,23 @@ const Products = () => {
         setProducts(data);
       }
     });
+  };
+
+  useEffect(() => {
+    preload();
   }, [reload]);
+
+  const { user, token } = isAuthenticated();
+
+  const deleteThisProduct = (productId) => {
+    deleteProduct(productId, user._id, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        preload();
+      }
+    });
+  };
 
   const columns = [
     {
@@ -55,7 +71,10 @@ const Products = () => {
         <div>
           <Button type="link">Edit</Button>
 
-          <Popconfirm title="Sure to delete?">
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => deleteThisProduct(record._id)}
+          >
             <Button type="link" danger>
               Delete
             </Button>

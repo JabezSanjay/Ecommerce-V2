@@ -165,7 +165,7 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
               onChange={handleChange("photo")}
               type="file"
               name="photo"
-              accept="image"
+              accept="image/*"
               placeholder="choose a file"
               value={photo}
             />
