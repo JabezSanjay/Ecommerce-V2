@@ -28,7 +28,6 @@ const Products = () => {
   const columns = [
     {
       title: "Name",
-      width: 150,
       dataIndex: "name",
       key: "_id",
       render: (text) => <h4>{text}</h4>,
@@ -81,6 +80,7 @@ const Products = () => {
           dataSource={dataSource}
           tab="Products"
           state={() => setCreateOpenProductSidebar(!openCreateProductSidebar)}
+          scroll={470}
         />
       </Row>
       {error && message.error(error)}

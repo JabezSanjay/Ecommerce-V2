@@ -12,6 +12,7 @@ const TableLayout = ({
   success,
   setSuccess,
   expandableValues,
+  scroll,
 }) => {
   message.config({
     maxCount: 1,
@@ -50,7 +51,7 @@ const TableLayout = ({
           columns={columns}
           pagination={true}
           loading={loading}
-          scroll={{ x: 300 }}
+          scroll={{ x: scroll }}
         />
       )}
       {success && message.success("Successful operation!") && setSuccess(false)}
