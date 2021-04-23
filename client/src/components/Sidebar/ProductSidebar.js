@@ -10,12 +10,26 @@ import {
 } from "antd";
 
 import { isAuthenticated } from "../../pages/Auth/helper";
-import { createProduct, getAllCategories } from "../../pages/Admin/helper";
+import {
+  createProduct,
+  getAllCategories,
+  getProduct,
+  updateProduct,
+} from "../../pages/Admin/helper";
 
 const { Option } = Select;
 
-const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
+const ProductSidebar = ({
+  visible,
+  onClose,
+  reload,
+  setReload,
+  create,
+  edit,
+  id,
+}) => {
   const { user, token } = isAuthenticated();
+  const [error, setError] = useState("");
 
   const [values, setValues] = useState({
     name: "",
@@ -32,20 +46,38 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
     formData: "",
   });
 
-  const { name, price, stock, categories, formData, loading, photo } = values;
+  const { price, stock, categories, formData, loading, photo } = values;
 
   const preload = () => {
-    getAllCategories().then((data) => {
+    getProduct(id).then((data) => {
       if (data.error) {
-        setValues({ ...values, error: data.error });
+        setError(data.error);
       } else {
-        setValues({ ...values, categories: data, formData: new FormData() });
+        getAllCategories().then((data) => {
+          if (data.error) {
+            setValues({ ...values, error: data.error });
+          } else {
+            setValues({
+              ...values,
+              categories: data,
+              formData: new FormData(),
+            });
+          }
+        });
+        setValues({
+          ...values,
+          name: data.name,
+          price: data.price,
+          category: data.category,
+          stock: data.stock,
+          formData: new FormData(),
+        });
       }
     });
   };
 
   useEffect(() => {
-    preload();
+    edit ? preload(id) : <div></div>;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -56,6 +88,28 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
   const onCreateSubmit = async (event) => {
     setValues({ ...values, error: "", loading: true });
     await createProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setReload(!reload);
+        setValues({
+          ...values,
+          name: "",
+          description: "",
+          price: "",
+          photo: "",
+          stock: "",
+          loading: false,
+          createdProduct: data.name,
+        });
+      }
+    });
+    Close(false);
+  };
+
+  const onEditSubmit = async (event) => {
+    setValues({ ...values, error: "", loading: true });
+    await updateProduct(id, user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -92,34 +146,32 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
         <Form
           layout="vertical"
           size="large"
-          onFinish={onCreateSubmit}
-          fields={[
-            {
-              name: ["name"],
-              price: "price",
-              category: "category",
-              stock: "stock",
-              photo: "photo",
-            },
-          ]}
+          onFinish={create ? onCreateSubmit : onEditSubmit}
         >
           <Form.Item
             name="name"
             label="Product name"
-            rules={[{ required: true, message: "Please enter a name!" }]}
+            rules={
+              create
+                ? [{ required: true, message: "Please enter a name!" }]
+                : []
+            }
           >
             <Input
               name="name"
               placeholder="Enter a product name"
               onChange={handleChange("name")}
-              value={name}
             />
           </Form.Item>
 
           <Form.Item
             name="category"
             label="Product category"
-            rules={[{ required: true, message: "Please select a category!" }]}
+            rules={
+              create
+                ? [{ required: true, message: "Please select a category!" }]
+                : []
+            }
           >
             <Select style={{ width: 250 }} onChange={handleCategoryChange}>
               {categories &&
@@ -133,7 +185,11 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
           <Form.Item
             name="price"
             label="Product price"
-            rules={[{ required: true, message: "Please enter a price!" }]}
+            rules={
+              create
+                ? [{ required: true, message: "Please enter a price!" }]
+                : []
+            }
             onChange={handleChange("price")}
           >
             <InputNumber
@@ -146,7 +202,11 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
           <Form.Item
             name="stock"
             label="Product stock"
-            rules={[{ required: true, message: "Please enter a stock!" }]}
+            rules={
+              create
+                ? [{ required: true, message: "Please enter a stock!" }]
+                : []
+            }
             onChange={handleChange("stock")}
           >
             <InputNumber
@@ -159,7 +219,11 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
           <Form.Item
             name="photo"
             label="Product image"
-            rules={[{ required: true, message: "Please upload an image!" }]}
+            rules={
+              create
+                ? [{ required: true, message: "Please upload an image!" }]
+                : []
+            }
           >
             <input
               onChange={handleChange("photo")}
@@ -170,18 +234,31 @@ const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
               value={photo}
             />
           </Form.Item>
-          <Button
-            type="primary"
-            block
-            size="large"
-            htmlType="submit"
-            loading={loading}
-          >
-            Create
-          </Button>
+          {create ? (
+            <Button
+              type="primary"
+              size="large"
+              htmlType="submit"
+              loading={loading}
+              block
+            >
+              Create
+            </Button>
+          ) : (
+            <Button
+              type="primary"
+              size="large"
+              htmlType="submit"
+              loading={loading}
+              block
+            >
+              Edit
+            </Button>
+          )}
         </Form>
       </Drawer>
       {values.error && message.error(values.error)}
+      {error && message.error(error)}
     </>
   );
 };

@@ -13,6 +13,9 @@ const Products = () => {
   const [openCreateProductSidebar, setCreateOpenProductSidebar] = useState(
     false
   );
+  const [openEditProductSidebar, setOpenEditProductSidebar] = useState(false);
+  const [productId, setProductId] = useState("");
+
   const preload = () => {
     getAllProducts().then((data) => {
       if (data.error) {
@@ -28,6 +31,11 @@ const Products = () => {
   }, [reload]);
 
   const { user, token } = isAuthenticated();
+
+  const onClickEdit = (record) => {
+    setProductId(record._id);
+    setOpenEditProductSidebar(true);
+  };
 
   const deleteThisProduct = (productId) => {
     deleteProduct(productId, user._id, token).then((data) => {
@@ -69,7 +77,14 @@ const Products = () => {
       key: "action",
       render: (record) => (
         <div>
-          <Button type="link">Edit</Button>
+          <Button
+            type="link"
+            onClick={() => {
+              onClickEdit(record);
+            }}
+          >
+            Edit
+          </Button>
 
           <Popconfirm
             title="Sure to delete?"
@@ -107,6 +122,17 @@ const Products = () => {
           reload={reload}
           edit={false}
           create={true}
+        />
+      )}
+      {openEditProductSidebar && (
+        <Sidebar
+          visible={openEditProductSidebar}
+          onClose={(value) => setOpenEditProductSidebar(value)}
+          setReload={setReload}
+          reload={reload}
+          edit={true}
+          create={false}
+          id={productId}
         />
       )}
     </div>

@@ -82,7 +82,7 @@ const CategorySidebar = ({
           onFinish={create ? onCreateSubmit : onSubmitEdit}
           fields={[
             {
-              name: ["name"],
+              name: "name",
               value: name,
             },
           ]}
