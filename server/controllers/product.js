@@ -179,6 +179,17 @@ exports.updateProduct = (req, res) => {
 exports.deleteProduct = (req, res) => {
   const product = req.product;
   product.remove((error, deletedProduct) => {
+    var params = {
+      Bucket: "ecommerce-v2",
+      Key: `${deletedProduct.photo.name}`,
+    };
+    s3.deleteObject(params, function (err, data) {
+      // if (data) {
+      //   console.log("File deleted successfully");
+      // } else {
+      //   console.log("Check if you have sufficient permissions : " + err);
+      // }
+    });
     if (error) {
       return res.status(400).json({
         error: "Product is not deleted!",
