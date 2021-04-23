@@ -3,19 +3,18 @@ import {
   Drawer,
   Form,
   Input,
-  Upload,
   message,
   Button,
   Select,
   InputNumber,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+
 import { isAuthenticated } from "../../pages/Auth/helper";
 import { createProduct, getAllCategories } from "../../pages/Admin/helper";
 
 const { Option } = Select;
 
-const ProductSidebar = ({ visible, onClose }) => {
+const ProductSidebar = ({ visible, onClose, reload, setReload }) => {
   const { user, token } = isAuthenticated();
 
   const [values, setValues] = useState({
@@ -33,18 +32,7 @@ const ProductSidebar = ({ visible, onClose }) => {
     formData: "",
   });
 
-  const {
-    name,
-    description,
-    price,
-    stock,
-    categories,
-    createdProduct,
-    formData,
-    loading,
-    photo,
-    category,
-  } = values;
+  const { name, price, stock, categories, formData, loading, photo } = values;
 
   const preload = () => {
     getAllCategories().then((data) => {
@@ -65,12 +53,13 @@ const ProductSidebar = ({ visible, onClose }) => {
     onClose(value);
   };
 
-  const onCreateSubmit = (event) => {
+  const onCreateSubmit = async (event) => {
     setValues({ ...values, error: "", loading: true });
-    createProduct(user._id, token, formData).then((data) => {
+    await createProduct(user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
+        setReload(!reload);
         setValues({
           ...values,
           name: "",
@@ -83,32 +72,19 @@ const ProductSidebar = ({ visible, onClose }) => {
         });
       }
     });
+    Close(false);
   };
 
   const handleChange = (name) => (event) => {
-    console.log(event.target.value);
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
 
   const handleCategoryChange = (value) => {
-    formData.set(category, value);
+    formData.set("category", value);
     setValues({ ...values, category: value });
   };
-
-  const props = {
-    onChange(info) {
-      console.log(info);
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-
-  console.log(formData);
 
   return (
     <>
@@ -164,7 +140,6 @@ const ProductSidebar = ({ visible, onClose }) => {
               style={{ width: 250 }}
               min={1}
               max={10000}
-              defaultValue={400}
               value={price}
             />
           </Form.Item>
@@ -178,7 +153,6 @@ const ProductSidebar = ({ visible, onClose }) => {
               style={{ width: 250 }}
               min={1}
               max={100}
-              defaultValue={30}
               value={stock}
             />
           </Form.Item>
@@ -207,7 +181,7 @@ const ProductSidebar = ({ visible, onClose }) => {
           </Button>
         </Form>
       </Drawer>
-      {/* {error && message.error(error)} */}
+      {values.error && message.error(values.error)}
     </>
   );
 };

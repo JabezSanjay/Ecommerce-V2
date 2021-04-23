@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Row, Col, Table, message } from "antd";
+import { Button, Popconfirm, Row, Col, message } from "antd";
 import React, { useState, useEffect } from "react";
 import { getAllProducts } from "../Admin/helper";
 import AdminSider from "../../components/Sider";
@@ -13,8 +13,6 @@ const Products = () => {
     false
   );
 
-  console.log(products);
-
   useEffect(() => {
     getAllProducts().then((data) => {
       if (data.error) {
@@ -23,7 +21,7 @@ const Products = () => {
         setProducts(data);
       }
     });
-  }, []);
+  }, [reload]);
 
   const columns = [
     {
@@ -67,8 +65,6 @@ const Products = () => {
     },
   ];
 
-  const dataSource = products;
-
   return (
     <div>
       <Row>
@@ -77,7 +73,7 @@ const Products = () => {
         </Col>
         <TableLayout
           columns={columns}
-          dataSource={dataSource}
+          dataSource={products}
           tab="Products"
           state={() => setCreateOpenProductSidebar(!openCreateProductSidebar)}
           scroll={470}
