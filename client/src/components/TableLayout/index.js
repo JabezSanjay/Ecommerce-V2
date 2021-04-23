@@ -50,6 +50,7 @@ const TableLayout = ({
           columns={columns}
           pagination={true}
           loading={loading}
+          scroll={{ x: 300 }}
         />
       )}
       {success && message.success("Successful operation!") && setSuccess(false)}

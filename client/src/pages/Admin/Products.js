@@ -25,39 +25,32 @@ const Products = () => {
     });
   }, []);
 
-  const expandedRowRender = () => {
-    const columns = [
-      {
-        title: "Price",
-        dataIndex: "price",
-        key: "price",
-        render: (text) => <h4>₹ {text}</h4>,
-      },
-      {
-        title: "Sold",
-        dataIndex: "sold",
-        key: "sold",
-        render: (text) => <h4>{text}</h4>,
-      },
-      {
-        title: "Stock",
-        dataIndex: "stock",
-        key: "stock",
-        render: (text) => <h4>{text}</h4>,
-      },
-    ];
-
-    return <Table columns={columns} dataSource={products} pagination={false} />;
-  };
-
   const columns = [
     {
       title: "Name",
+      width: 150,
       dataIndex: "name",
       key: "_id",
       render: (text) => <h4>{text}</h4>,
     },
-
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (text) => <h4>₹ {text}</h4>,
+    },
+    {
+      title: "Sold",
+      dataIndex: "sold",
+      key: "sold",
+      render: (text) => <h4>{text}</h4>,
+    },
+    {
+      title: "Stock",
+      dataIndex: "stock",
+      key: "stock",
+      render: (text) => <h4>{text}</h4>,
+    },
     {
       title: "Action",
       key: "action",
@@ -87,7 +80,6 @@ const Products = () => {
           columns={columns}
           dataSource={dataSource}
           tab="Products"
-          expandableValues={{ expandedRowRender }}
           state={() => setCreateOpenProductSidebar(!openCreateProductSidebar)}
         />
       </Row>
