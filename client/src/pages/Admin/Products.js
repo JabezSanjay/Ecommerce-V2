@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Row, Col, message } from "antd";
+import { Button, Popconfirm, Row, Col, message, Image } from "antd";
 import React, { useState, useEffect } from "react";
 import { deleteProduct, getAllProducts } from "../Admin/helper";
 import AdminSider from "../../components/Sider";
@@ -111,6 +111,10 @@ const Products = () => {
           tab="Products"
           state={() => setCreateOpenProductSidebar(!openCreateProductSidebar)}
           scroll={470}
+        />
+        <Image
+          width={200}
+          src="https://ecommerce-v2.s3.amazonaws.com/footer-open-hour-bg.jpg"
         />
       </Row>
       {error && message.error(error)}
