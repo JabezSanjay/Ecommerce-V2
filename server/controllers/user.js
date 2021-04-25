@@ -19,6 +19,17 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
+exports.getAllUsers = (req, res) => {
+  User.find().exec((err, users) => {
+    if (err) {
+      return res.status(400).json({
+        error: "No users found!",
+      });
+    }
+    res.json(users);
+  });
+};
+
 exports.updateUser = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.profile._id },

@@ -141,3 +141,14 @@ export const updateProduct = (productId, userId, token, product) => {
     })
     .catch((err) => console.log(err));
 };
+
+//Get all users
+export const getAllUsers = () => {
+  return fetch(`${API}/users/all`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};

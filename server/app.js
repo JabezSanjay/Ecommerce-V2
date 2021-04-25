@@ -11,8 +11,8 @@ const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
 
-const localDb = process.env.DATABASE;
-
+const localDb = process.env.LOCAL_DATABASE;
+const productionDb = process.env.PROD_DATABASE;
 //Middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -20,7 +20,7 @@ app.use(cors({ credentials: true, origin: true }));
 
 //DB Connection
 mongoose
-  .connect(localDb, {
+  .connect(productionDb, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

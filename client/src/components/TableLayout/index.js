@@ -31,9 +31,15 @@ const TableLayout = ({
           <h1 className="table-header">Manage {tab}</h1>
         </Col>
         <Col span={8}>
-          <Button type="primary" size="large" shape="round" onClick={state}>
-            Create
-          </Button>
+          {
+            (tab = "Users" ? (
+              <div></div>
+            ) : (
+              <Button type="primary" size="large" shape="round" onClick={state}>
+                Create
+              </Button>
+            ))
+          }
         </Col>
       </Row>
 
