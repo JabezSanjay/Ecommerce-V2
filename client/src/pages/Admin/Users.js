@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import AdminSider from "../../components/Sider";
-import { Row, Col, message } from "antd";
+import { Row, Col } from "antd";
 import TableLayout from "../../components/TableLayout";
 import { getAllUsers } from "./helper";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState([]);
+  const [setError] = useState([]);
 
   const preload = () => {
     getAllUsers().then((data) => {
@@ -20,6 +20,7 @@ const Users = () => {
 
   useEffect(() => {
     preload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const columns = [
@@ -51,7 +52,6 @@ const Users = () => {
         </Col>
         <TableLayout tab="Users" columns={columns} dataSource={users} />
       </Row>
-      {error && message.error(error)}
     </div>
   );
 };
