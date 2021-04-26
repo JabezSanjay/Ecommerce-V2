@@ -52,6 +52,8 @@ exports.createProduct = (req, res) => {
             Bucket: "ecommerce-v2",
             Key: `${file.photo.name}`,
             Body: JSON.stringify(data, null, 2),
+            ContentType: file.mimetype,
+            ACL: "public-read",
           };
           s3.upload(params, function (s3Err, data) {
             if (s3Err) throw s3Err;

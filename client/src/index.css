@@ -138,6 +138,11 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
 input:focus,
 select:focus,

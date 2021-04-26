@@ -49,21 +49,21 @@ const ProductSidebar = ({
   const { price, stock, categories, formData, loading, photo } = values;
 
   const preload = () => {
+    getAllCategories().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          categories: data,
+          formData: new FormData(),
+        });
+      }
+    });
     getProduct(id).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
-        getAllCategories().then((data) => {
-          if (data.error) {
-            setValues({ ...values, error: data.error });
-          } else {
-            setValues({
-              ...values,
-              categories: data,
-              formData: new FormData(),
-            });
-          }
-        });
         setValues({
           ...values,
           name: data.name,
@@ -76,8 +76,22 @@ const ProductSidebar = ({
     });
   };
 
+  const createPreload = () => {
+    getAllCategories().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          categories: data,
+          formData: new FormData(),
+        });
+      }
+    });
+  };
+
   useEffect(() => {
-    edit ? preload(id) : <div></div>;
+    edit ? preload(id) : createPreload();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

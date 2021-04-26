@@ -9,16 +9,11 @@ import {
 
 const { Meta } = Card;
 
-const ProductCard = () => {
+const ProductCard = ({ name, category, image, imageName }) => {
   return (
     <Card
       style={{ width: 300 }}
-      cover={
-        <img
-          alt="example"
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-        />
-      }
+      cover={<img alt={imageName} src={image} />}
       actions={[
         <Button.Group>
           <Space>
@@ -32,7 +27,7 @@ const ProductCard = () => {
         </Button.Group>,
       ]}
     >
-      <Meta title="Card title" description="This is the description" />
+      <Meta title={name} description={category} />
     </Card>
   );
 };
