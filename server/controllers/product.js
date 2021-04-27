@@ -52,8 +52,8 @@ exports.createProduct = (req, res) => {
           const params = {
             Bucket: "ecommerce-v2",
             Key: `${file.photo.name}`,
-            Body: JSON.stringify(data, null, 2),
-            ContentType: file.type,
+            Body: data,
+            ContentType: file.photo.type,
             ACL: "public-read",
           };
           s3.upload(params, function (s3Err, data) {
