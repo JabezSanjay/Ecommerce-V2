@@ -48,10 +48,13 @@ exports.createProduct = (req, res) => {
       if (file.photo) {
         fs.readFile(file.photo.path, (err, data) => {
           if (err) throw err;
+
           const params = {
             Bucket: "ecommerce-v2",
             Key: `${file.photo.name}`,
-            Body: JSON.stringify(data, null, 2),
+            Body: data,
+            ContentType: file.photo.type,
+            ACL: "public-read",
           };
           s3.upload(params, function (s3Err, data) {
             if (s3Err) throw s3Err;
