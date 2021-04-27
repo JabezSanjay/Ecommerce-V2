@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Card, Button, Space } from "antd";
 import {
@@ -9,7 +9,9 @@ import {
 
 const { Meta } = Card;
 
-const ProductCard = ({ name, category, image, imageName }) => {
+const ProductCard = ({ name, category, image, imageName, count }) => {
+  const [productCount, setProductCount] = useState(count);
+
   return (
     <Card
       style={{ width: 300 }}
@@ -17,9 +19,19 @@ const ProductCard = ({ name, category, image, imageName }) => {
       actions={[
         <Button.Group>
           <Space>
-            <Button icon={<MinusOutlined />} />
-            <h2>1</h2>
-            <Button icon={<PlusOutlined />} />
+            <Button
+              icon={<MinusOutlined />}
+              onClick={() =>
+                productCount > 1
+                  ? setProductCount(productCount - 1)
+                  : setProductCount(1)
+              }
+            />
+            <h2>{productCount}</h2>
+            <Button
+              icon={<PlusOutlined />}
+              onClick={() => setProductCount(productCount + 1)}
+            />
             <Button type="primary" icon={<ShoppingCartOutlined />}>
               Add to Cart
             </Button>
