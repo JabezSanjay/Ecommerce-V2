@@ -53,13 +53,10 @@ const HomePage = () => {
 
       <Row style={{ paddingTop: 120 }} justify="center">
         <Select
-          defaultValue="disabled"
           style={{ width: 200 }}
           onChange={(value) => setCategorySearch(value)}
+          placeholder="Search By Category"
         >
-          <Option value="disabled" disabled>
-            Search by Category
-          </Option>
           {categories.map((category, key) => {
             return (
               <Option value={category.name} key={key}>
