@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Card, Button, Space } from "antd";
 import {
@@ -11,9 +11,15 @@ const { Meta } = Card;
 
 const ProductCard = ({ name, category, image, imageName, count }) => {
   const [productCount, setProductCount] = useState(count);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   return (
     <Card
+      loading={loading}
       style={{ width: 300 }}
       cover={<img alt={imageName} src={image} />}
       actions={[

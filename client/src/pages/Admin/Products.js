@@ -15,6 +15,7 @@ const Products = () => {
   );
   const [openEditProductSidebar, setOpenEditProductSidebar] = useState(false);
   const [productId, setProductId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const preload = () => {
     getAllProducts().then((data) => {
@@ -38,11 +39,13 @@ const Products = () => {
   };
 
   const deleteThisProduct = (productId) => {
+    setLoading(true);
     deleteProduct(productId, user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
         preload();
+        setLoading(false);
       }
     });
   };
@@ -111,6 +114,7 @@ const Products = () => {
           tab="Products"
           state={() => setCreateOpenProductSidebar(!openCreateProductSidebar)}
           scroll={470}
+          loading={loading}
         />
       </Row>
       {error && message.error(error)}

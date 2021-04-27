@@ -92,7 +92,7 @@ const HomePage = () => {
             })
             .map((product, key) => {
               return (
-                <Col key={key}>
+                <Col key={key} xxl={5}>
                   <ProductCard
                     name={product.name}
                     category={product.category.name}

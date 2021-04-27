@@ -209,7 +209,7 @@ const ProductSidebar = ({
             <InputNumber
               style={{ width: 250 }}
               min={1}
-              max={10000}
+              max={1000000}
               value={price}
             />
           </Form.Item>
@@ -226,7 +226,7 @@ const ProductSidebar = ({
             <InputNumber
               style={{ width: 250 }}
               min={1}
-              max={100}
+              max={1000}
               value={stock}
             />
           </Form.Item>

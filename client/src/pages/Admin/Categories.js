@@ -16,6 +16,7 @@ const Categories = () => {
   );
   const [openEditCategorySidebar, setEditOpenCategorySidebar] = useState(false);
   const [categoryId, setCategoryId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { user, token } = isAuthenticated();
   const preload = () => {
@@ -37,12 +38,14 @@ const Categories = () => {
   };
 
   const deleteThisCategory = (productId) => {
+    setLoading(true);
     deleteCategory(productId, user._id, token).then((data) => {
       if (data.error) {
         setError(error);
       } else {
         message.success("Category deleted!");
         preload();
+        setLoading(false);
       }
     });
   };
@@ -95,6 +98,7 @@ const Categories = () => {
           state={() => setCreateOpenCategorySidebar(!openCreateCategorySidebar)}
           success={success}
           setSuccess={(value) => setSuccess(value)}
+          loading={loading}
         />
       </Row>
       {error && message.error(error)}
