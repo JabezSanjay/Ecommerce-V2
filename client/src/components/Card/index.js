@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-
 import { Card, Button, Space } from "antd";
 import {
   ShoppingCartOutlined,
   MinusOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { addItemtoCart } from "../../pages/Core/helper";
 
 const { Meta } = Card;
 
@@ -16,6 +16,11 @@ const ProductCard = ({ product }) => {
   useEffect(() => {
     setLoading(false);
   }, []);
+
+  const addToCart = () => {
+    product.count = productCount;
+    addItemtoCart(product);
+  };
 
   return (
     <Card
@@ -38,7 +43,11 @@ const ProductCard = ({ product }) => {
               icon={<PlusOutlined />}
               onClick={() => setProductCount(productCount + 1)}
             />
-            <Button type="primary" icon={<ShoppingCartOutlined />}>
+            <Button
+              type="primary"
+              icon={<ShoppingCartOutlined />}
+              onClick={addToCart}
+            >
               Add to Cart
             </Button>
           </Space>
