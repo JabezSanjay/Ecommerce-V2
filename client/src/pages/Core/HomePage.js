@@ -90,13 +90,7 @@ const HomePage = () => {
             .map((product, key) => {
               return (
                 <Col key={key} xxl={5}>
-                  <ProductCard
-                    name={product.name}
-                    category={product.category.name}
-                    image={product.photo.url}
-                    imageName={product.photo.name}
-                    count={product.count}
-                  />
+                  <ProductCard product={product} />
                 </Col>
               );
             })}

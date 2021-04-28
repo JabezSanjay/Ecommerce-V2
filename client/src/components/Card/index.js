@@ -9,8 +9,8 @@ import {
 
 const { Meta } = Card;
 
-const ProductCard = ({ name, category, image, imageName, count }) => {
-  const [productCount, setProductCount] = useState(count);
+const ProductCard = ({ product }) => {
+  const [productCount, setProductCount] = useState(product.count);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const ProductCard = ({ name, category, image, imageName, count }) => {
     <Card
       loading={loading}
       style={{ width: 300 }}
-      cover={<img alt={imageName} src={image} />}
+      cover={<img alt={product.photo.name} src={product.photo.url} />}
       actions={[
         <Button.Group>
           <Space>
@@ -45,7 +45,7 @@ const ProductCard = ({ name, category, image, imageName, count }) => {
         </Button.Group>,
       ]}
     >
-      <Meta title={name} description={category} />
+      <Meta title={product.name} description={product.category.name} />
     </Card>
   );
 };
