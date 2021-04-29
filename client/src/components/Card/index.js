@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Card, Button, Space } from "antd";
+import React, { useEffect, useState, useContext } from "react";
+import { Card, Button, Space, message } from "antd";
 import {
   ShoppingCartOutlined,
   MinusOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 import { addItemtoCart } from "../../pages/Core/helper";
+import { CartContext } from "../../hooks/CartContext";
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
   const [productCount, setProductCount] = useState(product.count);
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [cart, setCart] = useContext(CartContext);
 
   useEffect(() => {
     setLoading(false);
@@ -19,7 +22,9 @@ const ProductCard = ({ product }) => {
 
   const addToCart = () => {
     product.count = productCount;
+    setCart(productCount);
     addItemtoCart(product);
+    message.success(`${product.name} has been added to the cart!`);
   };
 
   return (

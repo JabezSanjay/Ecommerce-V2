@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Avatar, Badge, Button, message } from "antd";
 import { isAuthenticated, signout } from "../pages/Auth/helper";
 
+import { CartContext } from "../hooks/CartContext";
+
 const Navbar = ({ history }) => {
   const { user } = isAuthenticated();
   const [navbar, setNavbar] = useState(false);
+  const [cart] = useContext(CartContext);
 
   const navbarClicked = () => {
     setNavbar(!navbar);
   };
+
   const navbarComponent = () => {
     return (
       <header className="header">
@@ -85,7 +89,7 @@ const Navbar = ({ history }) => {
               type="primary"
               style={{ marginRight: "10px" }}
               icon={
-                <Badge count={1} size="small">
+                <Badge count={cart} size="small">
                   <ShoppingCartOutlined
                     style={{ color: "#fff", fontSize: "1.5rem" }}
                   />
