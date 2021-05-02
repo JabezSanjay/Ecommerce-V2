@@ -7,6 +7,7 @@ export const addItemtoCart = (item) => {
     cart.push({
       ...item,
     });
+
     localStorage.setItem("cart", JSON.stringify(cart));
   }
 };

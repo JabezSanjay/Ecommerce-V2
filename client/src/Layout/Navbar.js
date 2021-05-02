@@ -12,6 +12,8 @@ const Navbar = ({ history }) => {
   const [navbar, setNavbar] = useState(false);
   const [cart] = useContext(CartContext);
 
+  console.log(cart);
+
   const navbarClicked = () => {
     setNavbar(!navbar);
   };
