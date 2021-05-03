@@ -57,6 +57,7 @@ const HomePage = () => {
           onChange={(value) => setCategorySearch(value)}
           placeholder="Search By Category"
         >
+          <Option value="all">All</Option>
           {categories.map((category, key) => {
             return (
               <Option value={category.name} key={key}>
@@ -84,6 +85,8 @@ const HomePage = () => {
                   .toLowerCase()
                   .includes(searchCategoryValue.toLowerCase())
               ) {
+                return typedProduct;
+              } else if (searchCategoryValue === "all") {
                 return typedProduct;
               }
             })
