@@ -8,11 +8,11 @@ const Storage = (cartItems) => {
 export const sumItems = (cartItems) => {
   Storage(cartItems);
   let itemCount = cartItems.reduce(
-    (total, product) => total + product.count,
+    (total, product) => total + product.quantity,
     0
   );
   let total = cartItems
-    .reduce((total, product) => total + product.price * product.count, 0)
+    .reduce((total, product) => total + product.price * product.quantity, 0)
     .toFixed(2);
   return { itemCount, total };
 };
@@ -20,10 +20,10 @@ export const sumItems = (cartItems) => {
 export const CartReducer = (state, action) => {
   switch (action.type) {
     case "ADD_ITEM":
-      if (!state.cartItems.find((item) => item.id === action.payload.id)) {
+      if (!state.cartItems.find((item) => item._id === action.payload._id)) {
         state.cartItems.push({
           ...action.payload,
-          count: 1,
+          quantity: action.count,
         });
       }
 
@@ -36,16 +36,19 @@ export const CartReducer = (state, action) => {
       return {
         ...state,
         ...sumItems(
-          state.cartItems.filter((item) => item.id !== action.payload.id)
+          state.cartItems.filter((item) => item._id !== action.payload._id)
         ),
         cartItems: [
-          ...state.cartItems.filter((item) => item.id !== action.payload.id),
+          ...state.cartItems.filter((item) => item._id !== action.payload._id),
         ],
       };
     case "INCREASE":
-      state.cartItems[
-        state.cartItems.findIndex((item) => item.id === action.payload.id)
-      ].count++;
+      let cartItemIncrease =
+        state.cartItems[
+          state.cartItems.findIndex((item) => item._id === action.payload._id)
+        ];
+      cartItemIncrease.quantity += action.count;
+
       return {
         ...state,
         ...sumItems(state.cartItems),
@@ -53,8 +56,8 @@ export const CartReducer = (state, action) => {
       };
     case "DECREASE":
       state.cartItems[
-        state.cartItems.findIndex((item) => item.id === action.payload.id)
-      ].count--;
+        state.cartItems.findIndex((item) => item._id === action.payload._id)
+      ].quantity--;
       return {
         ...state,
         ...sumItems(state.cartItems),

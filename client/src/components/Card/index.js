@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Card, Button, Space } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  ShoppingCartOutlined,
+  MinusOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { CartContext } from "../../hooks/CartContext";
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
+  const [productCount, setProductCount] = useState(product.count);
   const [loading, setLoading] = useState(true);
-  // eslint-disable-next-line no-unused-vars
   const { addProduct, cartItems, increase } = useContext(CartContext);
 
   const isInCart = (product) => {
@@ -26,11 +30,24 @@ const ProductCard = ({ product }) => {
       actions={[
         <Button.Group>
           <Space>
+            <Button
+              icon={<MinusOutlined />}
+              onClick={() =>
+                productCount > 1
+                  ? setProductCount(productCount - 1)
+                  : setProductCount(1)
+              }
+            />
+            <h2>{productCount}</h2>
+            <Button
+              icon={<PlusOutlined />}
+              onClick={() => setProductCount(productCount + 1)}
+            />
             {isInCart(product) && (
               <Button
                 type="primary"
                 icon={<ShoppingCartOutlined />}
-                onClick={() => increase(product)}
+                onClick={() => increase(product, productCount)}
               >
                 Add More
               </Button>
@@ -39,7 +56,7 @@ const ProductCard = ({ product }) => {
               <Button
                 type="primary"
                 icon={<ShoppingCartOutlined />}
-                onClick={() => addProduct(product)}
+                onClick={() => addProduct(product, productCount)}
               >
                 Add to Cart
               </Button>
