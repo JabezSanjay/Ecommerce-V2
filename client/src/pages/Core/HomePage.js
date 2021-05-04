@@ -14,8 +14,10 @@ const HomePage = () => {
   const [setError] = useState("");
   const [searchCategory, setCategorySearch] = useState("");
   const [searchCategoryValue, setCategorySearchValue] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const preload = () => {
+    setLoading(true);
     getAllCategories().then((data) => {
       if (data.error) {
         setError(data.error);
@@ -30,7 +32,6 @@ const HomePage = () => {
         setProducts(
           data.map((d) => {
             return {
-              count: 1,
               name: d.name,
               category: d.category,
               photo: d.photo,
@@ -40,6 +41,7 @@ const HomePage = () => {
         );
       }
     });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -93,7 +95,7 @@ const HomePage = () => {
             .map((product, key) => {
               return (
                 <Col key={key} xxl={5}>
-                  <ProductCard product={product} />
+                  <ProductCard product={product} loading={loading} />
                 </Col>
               );
             })}

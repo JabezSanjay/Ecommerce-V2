@@ -20,11 +20,13 @@ const Categories = () => {
 
   const { user, token } = isAuthenticated();
   const preload = () => {
+    setLoading(true);
     getAllCategories().then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
         setCategories(data);
+        setLoading(false);
       }
     });
   };

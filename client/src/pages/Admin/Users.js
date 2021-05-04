@@ -7,13 +7,16 @@ import { getAllUsers } from "./helper";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [setError] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const preload = () => {
+    setLoading(true);
     getAllUsers().then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
         setUsers(data);
+        setLoading(false);
       }
     });
   };
@@ -50,7 +53,12 @@ const Users = () => {
         <Col>
           <AdminSider selectedKey="4" />
         </Col>
-        <TableLayout tab="Users" columns={columns} dataSource={users} />
+        <TableLayout
+          tab="Users"
+          columns={columns}
+          dataSource={users}
+          loading={loading}
+        />
       </Row>
     </div>
   );

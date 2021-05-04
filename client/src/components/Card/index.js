@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Card, Button, Space } from "antd";
 import {
   ShoppingCartOutlined,
@@ -9,18 +9,14 @@ import { CartContext } from "../../hooks/CartContext";
 
 const { Meta } = Card;
 
-const ProductCard = ({ product }) => {
-  const [productCount, setProductCount] = useState(product.count);
-  const [loading, setLoading] = useState(true);
+const ProductCard = ({ product, loading }) => {
+  const [productCount, setProductCount] = useState(1);
+
   const { addProduct, cartItems, increase } = useContext(CartContext);
 
   const isInCart = (product) => {
     return !!cartItems.find((item) => item._id === product._id);
   };
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
   return (
     <Card

@@ -18,11 +18,13 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
 
   const preload = () => {
+    setLoading(true);
     getAllProducts().then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
         setProducts(data);
+        setLoading(false);
       }
     });
   };
