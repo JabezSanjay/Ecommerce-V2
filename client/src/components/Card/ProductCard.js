@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Card, Button, Space } from "antd";
+import { Card, Button, Space, Image } from "antd";
 import {
   ShoppingCartOutlined,
   MinusOutlined,
@@ -22,7 +22,13 @@ const ProductCard = ({ product, loading }) => {
     <Card
       loading={loading}
       style={{ width: 300 }}
-      cover={<img alt={product.photo.name} src={product.photo.url} />}
+      cover={
+        <Image
+          alt={product.photo.name}
+          src={product.photo.url}
+          loading={loading}
+        />
+      }
       actions={[
         <Button.Group>
           <Space>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../Layout/Navbar";
-import ProductCard from "../../components/Card";
+import ProductCard from "../../components/Card/ProductCard";
 import { Row, Col, Select, Button } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
