@@ -61,7 +61,7 @@ const HomePage = () => {
     <HomepageTag>
       <Navbar />
 
-      {/* <Row style={{ paddingTop: 120 }} justify="center">
+      <Row style={{ paddingTop: 120 }} justify="center">
         <Select
           style={{ width: 200 }}
           onChange={(value) => setCategorySearch(value)}
@@ -83,26 +83,25 @@ const HomePage = () => {
             setCategorySearchValue(searchCategory);
           }}
         />
-      </Row> */}
+      </Row>
 
-      <div className="product-card" style={{ paddingTop: 200 }}>
+      <div className="product-card">
         <Row justify="space-around" align="middle" gutter={[16, 24]}>
           {products &&
             products.length > 0 &&
-            // eslint-disable-next-line array-callback-return
-
             products
-              // .filter((typedProduct) => {
-              //   if (
-              //     typedProduct.category.name
-              //       .toLowerCase()
-              //       .includes(searchCategoryValue.toLowerCase())
-              //   ) {
-              //     return typedProduct;
-              //   } else if (searchCategoryValue === "all") {
-              //     return typedProduct;
-              //   }
-              // })
+              // eslint-disable-next-line array-callback-return
+              .filter((typedProduct) => {
+                if (
+                  typedProduct.category.name
+                    .toLowerCase()
+                    .includes(searchCategoryValue.toLowerCase())
+                ) {
+                  return typedProduct;
+                } else if (searchCategoryValue === "all") {
+                  return typedProduct;
+                }
+              })
               .slice(minValue, maxValue)
               .map((product, key) => {
                 return (
@@ -116,14 +115,16 @@ const HomePage = () => {
                 );
               })}
         </Row>
-        <Row justify="center" style={{ marginTop: "30px" }}>
-          <Pagination
-            defaultCurrent={1}
-            defaultPageSize={numEachPage}
-            total={products.length}
-            onChange={handlePagination}
-          />
-        </Row>
+        {(searchCategoryValue === "" || searchCategoryValue === "all") && (
+          <Row justify="center" style={{ marginTop: "30px" }}>
+            <Pagination
+              defaultCurrent={1}
+              defaultPageSize={numEachPage}
+              total={products.length}
+              onChange={handlePagination}
+            />
+          </Row>
+        )}
       </div>
     </HomepageTag>
   );
