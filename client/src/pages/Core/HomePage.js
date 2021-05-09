@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../Layout/Navbar";
 import ProductCard from "../../components/Card/ProductCard";
-import { Row, Col, Select, Button } from "antd";
+import { Row, Col, Select, Button, Pagination } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
 import { getAllCategories, getAllProducts } from "../Admin/helper";
@@ -9,12 +9,15 @@ import { getAllCategories, getAllProducts } from "../Admin/helper";
 const { Option } = Select;
 
 const HomePage = () => {
+  const numEachPage = 4;
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [setError] = useState("");
   const [searchCategory, setCategorySearch] = useState("");
   const [searchCategoryValue, setCategorySearchValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const [minValue, setminValue] = useState(0);
+  const [maxValue, setmaxValue] = useState(numEachPage);
 
   const preload = () => {
     setLoading(true);
@@ -49,6 +52,11 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handlePagination = (value) => {
+    setminValue((value - 1) * numEachPage);
+    setmaxValue(value * numEachPage);
+  };
+
   return (
     <HomepageTag>
       <Navbar />
@@ -79,9 +87,10 @@ const HomePage = () => {
 
       <div className="product-card">
         <Row justify="space-around" align="middle" gutter={[16, 24]}>
-          {products
+          {products &&
+            products.length > 0 &&
             // eslint-disable-next-line array-callback-return
-            .filter((typedProduct) => {
+            products.filter((typedProduct) => {
               if (
                 typedProduct.category.name
                   .toLowerCase()
@@ -91,14 +100,26 @@ const HomePage = () => {
               } else if (searchCategoryValue === "all") {
                 return typedProduct;
               }
-            })
-            .map((product, key) => {
+            }) &&
+            products.slice(minValue, maxValue).map((product, key) => {
               return (
                 <Col key={key} xxl={5}>
-                  <ProductCard product={product} loading={loading} />
+                  <ProductCard
+                    product={product}
+                    products={products}
+                    loading={loading}
+                  />
                 </Col>
               );
             })}
+        </Row>
+        <Row justify="center" style={{ marginTop: "30px" }}>
+          <Pagination
+            defaultCurrent={1}
+            defaultPageSize={numEachPage}
+            total={products.length}
+            onChange={handlePagination}
+          />
         </Row>
       </div>
     </HomepageTag>

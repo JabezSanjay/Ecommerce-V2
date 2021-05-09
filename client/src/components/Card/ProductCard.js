@@ -6,6 +6,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import { CartContext } from "../../hooks/CartContext";
+import ProgressiveLoading from "../../assets/images/image-loading.png";
 
 const { Meta } = Card;
 
@@ -26,7 +27,9 @@ const ProductCard = ({ product, loading }) => {
         <Image
           alt={product.photo.name}
           src={product.photo.url}
-          loading={loading}
+          placeholder={
+            <Image preview={false} src={ProgressiveLoading} height={200} />
+          }
         />
       }
       actions={[
