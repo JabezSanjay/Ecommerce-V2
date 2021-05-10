@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AdminRoute from "./auth/helper/AdminRoute";
 import PrivateRoute from "./auth/helper/PrivateRoute";
-
 import Categories from "./pages/Admin/Categories";
 import Orders from "./pages/Admin/Orders";
 import Products from "./pages/Admin/Products";

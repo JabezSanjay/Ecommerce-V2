@@ -14,6 +14,7 @@ const TableLayout = ({
   expandableValues,
   scroll,
   createButton,
+  pagination,
 }) => {
   message.config({
     maxCount: 1,
@@ -28,11 +29,13 @@ const TableLayout = ({
       style={{ marginTop: "10vh", marginLeft: "10px" }}
     >
       <Row>
-        <Col span={16}>
-          <h1 className="table-header">Manage {tab}</h1>
-        </Col>
+        {tab && (
+          <Col span={16}>
+            <h1 className="table-header">Manage {tab}</h1>
+          </Col>
+        )}
         <Col span={8}>
-          {tab === "Users" ? (
+          {tab === "Users" || createButton === false ? (
             <div></div>
           ) : (
             <Button type="primary" size="large" shape="round" onClick={state}>
@@ -54,7 +57,7 @@ const TableLayout = ({
         <Table
           dataSource={dataSource}
           columns={columns}
-          pagination={true}
+          pagination={pagination}
           loading={loading}
           scroll={{ x: scroll }}
         />
