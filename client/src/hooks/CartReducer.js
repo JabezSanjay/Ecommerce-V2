@@ -24,6 +24,7 @@ export const CartReducer = (state, action) => {
         state.cartItems.push({
           ...action.payload,
           count: action.count,
+          total: action.count * action.payload.price,
         });
       }
 

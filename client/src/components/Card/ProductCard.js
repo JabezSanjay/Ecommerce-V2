@@ -70,7 +70,7 @@ const ProductCard = ({ product, loading }) => {
         </Button.Group>,
       ]}
     >
-      <Meta title={product.name} description={product.category.name} />
+      <Meta title={product.name} description={product.price_in_rs} />
     </Card>
   );
 };

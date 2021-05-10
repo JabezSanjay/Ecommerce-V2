@@ -38,7 +38,10 @@ const HomePage = () => {
               name: d.name,
               category: d.category,
               photo: d.photo,
+              price_in_rs: `Rs.${d.price}`,
+              price: d.price,
               _id: d._id,
+              image_url: d.photo.url,
             };
           })
         );
