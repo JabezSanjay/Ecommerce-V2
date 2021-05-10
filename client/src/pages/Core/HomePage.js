@@ -9,7 +9,6 @@ import { getAllCategories, getAllProducts } from "../Admin/helper";
 const { Option } = Select;
 
 const HomePage = () => {
-  const numEachPage = 4;
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [setError] = useState("");
@@ -17,7 +16,8 @@ const HomePage = () => {
   const [searchCategoryValue, setCategorySearchValue] = useState("");
   const [loading, setLoading] = useState(true);
   const [minValue, setminValue] = useState(0);
-  const [maxValue, setmaxValue] = useState(numEachPage);
+  const [maxValue, setmaxValue] = useState(4);
+  const [numEachPage, setNumEachPage] = useState(4);
 
   const preload = () => {
     setLoading(true);
@@ -55,7 +55,8 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePagination = (value) => {
+  const handlePagination = (value, pagesize) => {
+    setNumEachPage(pagesize);
     setminValue((value - 1) * numEachPage);
     setmaxValue(value * numEachPage);
   };
@@ -121,10 +122,10 @@ const HomePage = () => {
         {(searchCategoryValue === "" || searchCategoryValue === "all") && (
           <Row justify="center" style={{ marginTop: "30px" }}>
             <Pagination
-              defaultCurrent={1}
               defaultPageSize={numEachPage}
               total={products.length}
               onChange={handlePagination}
+              defaultCurrent={1}
             />
           </Row>
         )}
