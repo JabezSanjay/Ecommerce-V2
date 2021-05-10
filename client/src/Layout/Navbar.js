@@ -84,18 +84,20 @@ const Navbar = ({ history }) => {
             )}
           </ul>
           <div className="button-group">
-            <Button
-              shape="circle"
-              type="primary"
-              style={{ marginRight: "10px" }}
-              icon={
-                <Badge count={itemCount} size="small">
-                  <ShoppingCartOutlined
-                    style={{ color: "#fff", fontSize: "1.5rem" }}
-                  />
-                </Badge>
-              }
-            />
+            <Link to="/cart">
+              <Button
+                shape="circle"
+                type="primary"
+                style={{ marginRight: "10px" }}
+                icon={
+                  <Badge count={itemCount} size="small">
+                    <ShoppingCartOutlined
+                      style={{ color: "#fff", fontSize: "1.5rem" }}
+                    />
+                  </Badge>
+                }
+              />
+            </Link>
             <Button
               shape="circle"
               type="primary"

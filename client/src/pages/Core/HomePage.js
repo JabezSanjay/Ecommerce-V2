@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../Layout/Navbar";
-import ProductCard from "../../components/Card";
-import { Row, Col, Select, Button } from "antd";
+import ProductCard from "../../components/Card/ProductCard";
+import { Row, Col, Select, Button, Pagination } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
 import { getAllCategories, getAllProducts } from "../Admin/helper";
@@ -15,6 +15,9 @@ const HomePage = () => {
   const [searchCategory, setCategorySearch] = useState("");
   const [searchCategoryValue, setCategorySearchValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const [minValue, setminValue] = useState(0);
+  const [maxValue, setmaxValue] = useState(4);
+  const [numEachPage, setNumEachPage] = useState(4);
 
   const preload = () => {
     setLoading(true);
@@ -35,7 +38,10 @@ const HomePage = () => {
               name: d.name,
               category: d.category,
               photo: d.photo,
+              price_in_rs: `Rs.${d.price}`,
+              price: d.price,
               _id: d._id,
+              image_url: d.photo.url,
             };
           })
         );
@@ -48,6 +54,12 @@ const HomePage = () => {
     preload();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handlePagination = (value, pagesize) => {
+    setNumEachPage(pagesize);
+    setminValue((value - 1) * numEachPage);
+    setmaxValue(value * numEachPage);
+  };
 
   return (
     <HomepageTag>
@@ -79,27 +91,44 @@ const HomePage = () => {
 
       <div className="product-card">
         <Row justify="space-around" align="middle" gutter={[16, 24]}>
-          {products
-            // eslint-disable-next-line array-callback-return
-            .filter((typedProduct) => {
-              if (
-                typedProduct.category.name
-                  .toLowerCase()
-                  .includes(searchCategoryValue.toLowerCase())
-              ) {
-                return typedProduct;
-              } else if (searchCategoryValue === "all") {
-                return typedProduct;
-              }
-            })
-            .map((product, key) => {
-              return (
-                <Col key={key} xxl={5}>
-                  <ProductCard product={product} loading={loading} />
-                </Col>
-              );
-            })}
+          {products &&
+            products.length > 0 &&
+            products
+              // eslint-disable-next-line array-callback-return
+              .filter((typedProduct) => {
+                if (
+                  typedProduct.category.name
+                    .toLowerCase()
+                    .includes(searchCategoryValue.toLowerCase())
+                ) {
+                  return typedProduct;
+                } else if (searchCategoryValue === "all") {
+                  return typedProduct;
+                }
+              })
+              .slice(minValue, maxValue)
+              .map((product, key) => {
+                return (
+                  <Col key={key} xxl={5}>
+                    <ProductCard
+                      product={product}
+                      products={products}
+                      loading={loading}
+                    />
+                  </Col>
+                );
+              })}
         </Row>
+        {(searchCategoryValue === "" || searchCategoryValue === "all") && (
+          <Row justify="center" style={{ marginTop: "30px" }}>
+            <Pagination
+              defaultPageSize={numEachPage}
+              total={products.length}
+              onChange={handlePagination}
+              defaultCurrent={1}
+            />
+          </Row>
+        )}
       </div>
     </HomepageTag>
   );
