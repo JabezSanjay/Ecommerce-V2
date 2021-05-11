@@ -18,13 +18,14 @@ exports.getOrderById = (req, res, next, id) => {
 
 exports.createOrder = (req, res) => {
   // req.body.order.user = req.profile;
-  const order = new Order(req.body.order);
+  const order = new Order(req.body);
   order.save((err, order) => {
     if (err) {
       return res.status(400).json({
         error: "Failed to save your order in DB",
       });
     }
+
     res.json(order);
   });
 };
@@ -52,7 +53,7 @@ exports.updateStock = (req, res, next) => {
     return {
       updateOne: {
         filter: { _id: product._id },
-        update: { $inc: { stock: -product.count, sold: +product.count } },
+        update: { $inc: { stock: -product.quantity, sold: +product.quantity } },
       },
     };
   });
