@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import CheckoutRoute from "./auth/helper/CheckoutRoute";
 import AdminRoute from "./auth/helper/AdminRoute";
 import PrivateRoute from "./auth/helper/PrivateRoute";
 import Categories from "./pages/Admin/Categories";
@@ -11,7 +10,7 @@ import Register from "./pages/Auth/Register";
 import Signin from "./pages/Auth/Signin";
 import HomePage from "./pages/Core/HomePage";
 import CartPage from "./pages/Core/CartPage";
-import CheckoutPage from "./pages/Core/CheckoutPage";
+
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import UserDashboard from "./pages/Dashboard/UserDashboard";
 
@@ -33,7 +32,6 @@ const Routes = () => {
         <AdminRoute path="/admin/manage/users" exact component={Users} />
         <AdminRoute path="/admin/manage/orders" exact component={Orders} />
         <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
-        <CheckoutRoute path="/checkout" exact component={CheckoutPage} />
       </Switch>
     </Router>
   );

@@ -18,7 +18,10 @@ const OrderSchema = new mongoose.Schema(
     products: [ProductCartSchema],
     transaction_id: {},
     amount: { type: Number },
-    address: String,
+    address: {
+      street: String,
+      state: String,
+    },
     status: {
       type: String,
       default: "Recieved",

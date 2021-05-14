@@ -5,6 +5,7 @@ import { CartContext } from "../../hooks/CartContext";
 import Navbar from "../../Layout/Navbar";
 import TableLayout from "../../components/TableLayout";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const { cartItems, total, removeProduct } = useContext(CartContext);
@@ -32,8 +33,8 @@ const CartPage = () => {
     },
 
     {
-      title: "Total price in Rs.",
-      dataIndex: "total",
+      title: "Price in Rs.",
+      dataIndex: "price_in_rs",
       key: "_id",
       render: (text) => <h4>{text}</h4>,
     },
@@ -73,7 +74,11 @@ const CartPage = () => {
 
       <Row style={{ margin: "7.5vh 0 2vh 0" }} justify="center">
         <h1>Total Price : Rs. {total}</h1>
-        {cartItems.length >= 1 && <Button type="primary">Checkout</Button>}
+        {cartItems.length >= 1 && (
+          <Link to="/checkout">
+            <Button type="primary">Checkout</Button>
+          </Link>
+        )}
       </Row>
     </CartTag>
   );
