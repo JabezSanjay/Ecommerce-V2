@@ -8,8 +8,9 @@ import Products from "./pages/Admin/Products";
 import Users from "./pages/Admin/Users";
 import Register from "./pages/Auth/Register";
 import Signin from "./pages/Auth/Signin";
-import CartPage from "./pages/Core/CartPage";
 import HomePage from "./pages/Core/HomePage";
+import CartPage from "./pages/Core/CartPage";
+
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import UserDashboard from "./pages/Dashboard/UserDashboard";
 

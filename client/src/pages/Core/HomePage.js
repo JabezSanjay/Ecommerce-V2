@@ -65,7 +65,7 @@ const HomePage = () => {
     <HomepageTag>
       <Navbar />
 
-      <Row style={{ paddingTop: 120 }} justify="center">
+      <Row justify="center">
         <Select
           style={{ width: 200 }}
           onChange={(value) => setCategorySearch(value)}
