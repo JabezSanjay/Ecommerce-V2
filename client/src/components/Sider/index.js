@@ -16,13 +16,8 @@ const { Sider } = Layout;
 const AdminSider = ({ selectedKey }) => {
   return (
     <div>
-      <Navbar />
-      <Sider
-        style={{ paddingTop: "7.5vh" }}
-        breakpoint="md"
-        collapsible
-        theme="light"
-      >
+      <Navbar padding={75} />
+      <Sider breakpoint="md" collapsible theme="light">
         <Menu
           mode="inline"
           style={{ minHeight: "92.5vh" }}

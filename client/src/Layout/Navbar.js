@@ -6,7 +6,7 @@ import { Avatar, Badge, Button, message } from "antd";
 import { isAuthenticated, signout } from "../pages/Auth/helper";
 import { CartContext } from "../hooks/CartContext";
 
-const Navbar = ({ history }) => {
+const Navbar = ({ history, padding }) => {
   const { user } = isAuthenticated();
   const [navbar, setNavbar] = useState(false);
 
@@ -18,7 +18,7 @@ const Navbar = ({ history }) => {
 
   const navbarComponent = () => {
     return (
-      <header className="header">
+      <header className="header" style={{ paddingBottom: padding || "120px" }}>
         <nav className="navbar">
           <h1 className="navbar__logo">Ecommerce-V2</h1>
           <ul

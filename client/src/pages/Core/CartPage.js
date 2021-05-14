@@ -55,7 +55,7 @@ const CartPage = () => {
     <CartTag>
       <Navbar />
 
-      <Row style={{ paddingTop: 120 }} justify="center">
+      <Row justify="center">
         <Col span={19}>
           <Breadcrumb>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
