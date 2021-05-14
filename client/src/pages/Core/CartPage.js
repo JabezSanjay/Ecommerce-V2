@@ -20,7 +20,7 @@ const CartPage = () => {
     {
       title: "Name",
       dataIndex: "name",
-      key: "_id",
+      key: "name",
       render: (text) => <h4>{text}</h4>,
     },
 
@@ -73,11 +73,7 @@ const CartPage = () => {
 
       <Row style={{ margin: "7.5vh 0 2vh 0" }} justify="center">
         <h1>Total Price : Rs. {total}</h1>
-        {cartItems === [] ? (
-          <div></div>
-        ) : (
-          <Button type="primary">Checkout</Button>
-        )}
+        {cartItems.length >= 1 && <Button type="primary">Checkout</Button>}
       </Row>
     </CartTag>
   );
