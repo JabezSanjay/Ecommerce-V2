@@ -5,6 +5,8 @@ import { CartContext } from "../../hooks/CartContext";
 import Navbar from "../../Layout/Navbar";
 import TableLayout from "../../components/TableLayout";
 import styled from "styled-components";
+import { API } from "../../backend";
+import { isAuthenticated } from "../Auth/helper";
 
 const CartPage = () => {
   const { cartItems, total, removeProduct } = useContext(CartContext);
@@ -34,20 +36,27 @@ const CartPage = () => {
       message.error("Error connecting payment!");
     }
 
+    const { token } = isAuthenticated();
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    const body = { total };
+
+    const data = await fetch(`${API}/checkout`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    }).then((t) => t.json());
+
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-      amount: total * 100,
-      currency: "INR",
+      amount: data.amount,
+      currency: data.currency,
       name: "Ecommerce-V2",
       description: "This is a test transaction!",
-      image: "https://example.com/your_logo",
-      order_id: "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      handler: function (response) {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
-      },
-
+      order_id: data.id,
       theme: {
         color: "#1890FF",
       },
