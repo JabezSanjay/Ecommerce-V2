@@ -10,6 +10,7 @@ const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
+const razorPaymentRoutes = require("./routes/razorpayPayment");
 
 const localDb = process.env.LOCAL_DATABASE;
 const productionDb = process.env.PROD_DATABASE;
@@ -35,6 +36,7 @@ app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
 app.use("/api", orderRoutes);
+app.use("/api", razorPaymentRoutes);
 
 //Port
 const port = process.env.port || 8000;
