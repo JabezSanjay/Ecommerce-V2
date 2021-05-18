@@ -1,34 +1,36 @@
 import { API } from "../../../backend";
 import { User } from "../../../store";
 
-export const register = (user) => {
-  return fetch(`${API}/register`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .catch((message) => console.log(message));
+export const register = async (user) => {
+  try {
+    const response = await fetch(`${API}/register`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    return await response.json();
+  } catch (message) {
+    return console.log(message);
+  }
 };
 
-export const signin = (user) => {
-  return fetch(`${API}/signin`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .catch((err) => console.log(err));
+export const signin = async (user) => {
+  try {
+    const response = await fetch(`${API}/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    return await response.json();
+  } catch (err) {
+    return console.log(err);
+  }
 };
 
 export const signout = (next) => {

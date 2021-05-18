@@ -53,7 +53,7 @@ exports.updateStock = (req, res, next) => {
     return {
       updateOne: {
         filter: { _id: product._id },
-        update: { $inc: { stock: -product.quantity, sold: +product.quantity } },
+        update: { $inc: { stock: -product.count, sold: +product.count } },
       },
     };
   });
@@ -75,7 +75,7 @@ exports.pushOrderInPurchaseList = (req, res, next) => {
       name: product.name,
       description: product.description,
       category: product.category,
-      quantity: product.quantity,
+      count: product.count,
       amount: req.body.amount,
       transaction_id: req.body.transaction_id,
     });

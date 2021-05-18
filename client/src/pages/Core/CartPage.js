@@ -7,9 +7,15 @@ import TableLayout from "../../components/TableLayout";
 import styled from "styled-components";
 import { API } from "../../backend";
 import { isAuthenticated } from "../Auth/helper";
+import { createOrder, emptyCart } from "./helper";
 
 const CartPage = () => {
   const { cartItems, total, removeProduct } = useContext(CartContext);
+
+  // eslint-disable-next-line
+  const authToken = isAuthenticated() && isAuthenticated().token;
+  // eslint-disable-next-line
+  const userId = isAuthenticated() && isAuthenticated().user._id;
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -48,7 +54,15 @@ const CartPage = () => {
       method: "POST",
       headers,
       body: JSON.stringify(body),
-    }).then((t) => t.json());
+    }).then((response) => {
+      // const orderData = {
+      //   products: cartItems,
+      //   amount: total,
+      // };
+      // createOrder(userId, authToken, orderData);
+
+      return response.json();
+    });
 
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,

@@ -1,3 +1,5 @@
+import { API } from "../../../backend";
+
 export const addItemtoCart = (item) => {
   let cart = [];
   if (typeof window !== undefined) {
@@ -34,5 +36,31 @@ export const loadCartItems = () => {
     if (localStorage.getItem("cart")) {
       return JSON.parse(localStorage.getItem("cart"));
     }
+  }
+};
+
+export const emptyCart = (next) => {
+  if (typeof window !== undefined) {
+    localStorage.removeItem("cart");
+    let cart = [];
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  next();
+};
+
+export const createOrder = async (userId, authToken, orderData) => {
+  try {
+    const reponse = await fetch(`${API}/order/create/${userId}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify(orderData),
+    });
+    return await reponse.json();
+  } catch (err) {
+    return console.log(err);
   }
 };
