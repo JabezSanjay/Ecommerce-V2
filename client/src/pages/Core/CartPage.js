@@ -55,12 +55,6 @@ const CartPage = () => {
       headers,
       body: JSON.stringify(body),
     }).then((response) => {
-      // const orderData = {
-      //   products: cartItems,
-      //   amount: total,
-      // };
-      // createOrder(userId, authToken, orderData);
-
       return response.json();
     });
 
@@ -71,6 +65,24 @@ const CartPage = () => {
       name: "Ecommerce-V2",
       description: "This is a test transaction!",
       order_id: data.id,
+      handler: async function (response) {
+        if (response) {
+          // eslint-disable-next-line no-unused-vars
+          const verification = await fetch(`${API}/verification`, {
+            method: "POST",
+            body: response.razorpay_signature,
+          }).then((res) => {
+            emptyCart(() => {
+              const orderData = {
+                products: cartItems,
+                amount: total,
+              };
+              createOrder(userId, authToken, orderData);
+            });
+          });
+          window.location.reload();
+        }
+      },
       theme: {
         color: "#1890FF",
       },

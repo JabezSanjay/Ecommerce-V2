@@ -1,5 +1,6 @@
 const Razorpay = require("razorpay");
 const shortid = require("shortid");
+const crypto = require("crypto");
 
 const razorInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -32,4 +33,18 @@ exports.razorPayCheckout = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.razorPayVerification = (req, res) => {
+  const secret = process.env.RAZOR_SECRET;
+
+  const shasum = crypto.createHmac("sha256", secret);
+  shasum.update(JSON.stringify(req.body));
+  const digest = shasum.digest("hex");
+
+  if (digest === req.headers["x-razorpay-signature"]) {
+    return res.status(200);
+  }
+  res.json({ status: "ok" });
+  return;
 };

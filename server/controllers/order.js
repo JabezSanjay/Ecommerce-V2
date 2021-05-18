@@ -26,7 +26,7 @@ exports.createOrder = (req, res) => {
       });
     }
 
-    res.json(order);
+    return res.json(order);
   });
 };
 
