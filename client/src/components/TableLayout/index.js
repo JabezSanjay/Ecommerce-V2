@@ -35,7 +35,7 @@ const TableLayout = ({
           </Col>
         )}
         <Col span={8}>
-          {tab === "Users" || createButton === false ? (
+          {tab === "Users" || tab === "Orders" || createButton === false ? (
             <div></div>
           ) : (
             <Button type="primary" size="large" shape="round" onClick={state}>
