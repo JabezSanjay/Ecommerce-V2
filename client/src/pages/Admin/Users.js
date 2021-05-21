@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AdminSider from "../../components/Sider";
+import AdminSider from "../../components/Sider/AdminSider";
 import { Row, Col } from "antd";
 import TableLayout from "../../components/TableLayout";
 import { getAllUsers } from "./helper";

@@ -1,5 +1,5 @@
 import React from "react";
-import AdminSider from "../../components/Sider";
+import AdminSider from "../../components/Sider/AdminSider";
 
 const AdminDashboard = () => {
   return (

@@ -166,7 +166,7 @@ const Register = () => {
   };
   return (
     <RegisterTag>
-      <Navbar />
+      <Navbar padding="0px" />
       {RegisterPage()}
       {errorMessage()}
       {performRedirect()}

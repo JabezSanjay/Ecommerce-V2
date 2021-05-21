@@ -141,7 +141,7 @@ const Signin = () => {
   };
   return (
     <SigninTag>
-      <Navbar />
+      <Navbar padding="0px" />
       {SigninPage()}
       {errorMessage()}
       {performRedirect()}

@@ -1,7 +1,7 @@
 import { Button, Popconfirm, Row, Col, message } from "antd";
 import React, { useState, useEffect } from "react";
 import { deleteProduct, getAllProducts } from "../Admin/helper";
-import AdminSider from "../../components/Sider";
+import AdminSider from "../../components/Sider/AdminSider";
 import TableLayout from "../../components/TableLayout";
 import Sidebar from "../../components/Sidebar/ProductSidebar";
 import { isAuthenticated } from "../Auth/helper";
@@ -10,9 +10,8 @@ const Products = () => {
   const [error, setError] = useState("");
   const [products, setProducts] = useState([]);
   const [reload, setReload] = useState(false);
-  const [openCreateProductSidebar, setCreateOpenProductSidebar] = useState(
-    false
-  );
+  const [openCreateProductSidebar, setCreateOpenProductSidebar] =
+    useState(false);
   const [openEditProductSidebar, setOpenEditProductSidebar] = useState(false);
   const [productId, setProductId] = useState("");
   const [loading, setLoading] = useState(false);

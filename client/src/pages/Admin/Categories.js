@@ -1,6 +1,6 @@
 import { Col, Row, Button, message, Popconfirm } from "antd";
 import React, { useEffect, useState } from "react";
-import AdminSider from "../../components/Sider";
+import AdminSider from "../../components/Sider/AdminSider";
 import TableLayout from "../../components/TableLayout";
 import { getAllCategories, deleteCategory } from "./helper";
 import Sidebar from "../../components/Sidebar/CategorySidebar";
@@ -11,9 +11,8 @@ const Categories = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [reload, setReload] = useState(false);
-  const [openCreateCategorySidebar, setCreateOpenCategorySidebar] = useState(
-    false
-  );
+  const [openCreateCategorySidebar, setCreateOpenCategorySidebar] =
+    useState(false);
   const [openEditCategorySidebar, setEditOpenCategorySidebar] = useState(false);
   const [categoryId, setCategoryId] = useState("");
   const [loading, setLoading] = useState(false);
