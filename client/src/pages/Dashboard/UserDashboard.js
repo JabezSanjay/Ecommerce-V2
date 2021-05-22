@@ -1,11 +1,10 @@
 import React from "react";
-import Navbar from "../../Layout/Navbar";
+import UserSider from "../../components/Sider/UserSider";
 
 const UserDashboard = () => {
   return (
     <div>
-      <Navbar />
-      User Dashboard
+      <UserSider selectedKey="1" />
     </div>
   );
 };

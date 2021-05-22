@@ -10,7 +10,7 @@ import Register from "./pages/Auth/Register";
 import Signin from "./pages/Auth/Signin";
 import HomePage from "./pages/Core/HomePage";
 import CartPage from "./pages/Core/CartPage";
-
+import FavouritesPage from "./pages/Core/FavouritesPage";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import UserDashboard from "./pages/Dashboard/UserDashboard";
 
@@ -32,6 +32,11 @@ const Routes = () => {
         <AdminRoute path="/admin/manage/users" exact component={Users} />
         <AdminRoute path="/admin/manage/orders" exact component={Orders} />
         <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
+        <PrivateRoute
+          path="/user/favourites"
+          exact
+          component={FavouritesPage}
+        />
       </Switch>
     </Router>
   );
