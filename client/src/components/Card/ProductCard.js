@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Card, Button, Space, Image } from "antd";
+import { Card, Button, Space, Image, message } from "antd";
 import {
   ShoppingCartOutlined,
   MinusOutlined,
@@ -17,6 +17,11 @@ const ProductCard = ({ product, loading }) => {
 
   const isInCart = (product) => {
     return !!cartItems.find((item) => item._id === product._id);
+  };
+
+  const addToCart = () => {
+    addProduct(product, productCount);
+    message.success(`${product.name} added to cart!`);
   };
 
   return (
@@ -61,7 +66,7 @@ const ProductCard = ({ product, loading }) => {
               <Button
                 type="primary"
                 icon={<ShoppingCartOutlined />}
-                onClick={() => addProduct(product, productCount)}
+                onClick={addToCart}
               >
                 Add to Cart
               </Button>
