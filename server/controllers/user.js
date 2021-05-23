@@ -49,14 +49,14 @@ exports.updateUser = (req, res) => {
 };
 
 exports.userPurchaseList = (req, res) => {
-  Order.find({ user: req.profile._id })
-    .populate("user", "_id name")
-    .exec((error, order) => {
-      if (error || !order) {
-        return res.status(400).json({
-          error: "No order is found in this account!",
-        });
-      }
-      return res.json(order);
-    });
+  const id = req.profile._id;
+
+  User.findById(id).exec((err, order) => {
+    if (err || order.purchases === []) {
+      return res.status(400).json({
+        error: "No Order in this account",
+      });
+    }
+    return res.json(order.purchases);
+  });
 };
