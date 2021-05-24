@@ -139,7 +139,7 @@ exports.updateProduct = (req, res) => {
           const params = {
             Bucket: "ecommerce-v2",
             Key: `${file.photo.name}`,
-            Body: JSON.stringify(data, null, 2),
+            Body: data,
           };
           s3.upload(params, function (s3Err, data) {
             if (s3Err) throw s3Err;
