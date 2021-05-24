@@ -10,7 +10,8 @@ import ProgressiveLoading from "../../assets/images/image-loading.png";
 
 const { Meta } = Card;
 
-const ProductCard = ({ product, loading }) => {
+const ProductCard = ({ product, loading, page }) => {
+  console.log(product);
   const [productCount, setProductCount] = useState(1);
 
   const { addProduct, cartItems, increase } = useContext(CartContext);
@@ -25,58 +26,66 @@ const ProductCard = ({ product, loading }) => {
   };
 
   return (
-    <Card
-      loading={loading}
-      style={{ width: 300 }}
-      cover={
-        <Image
-          alt={product.photo.name}
-          src={product.photo.url}
-          placeholder={
-            <Image preview={false} src={ProgressiveLoading} height={200} />
-          }
-        />
-      }
-      actions={[
-        <Button.Group>
-          <Space>
-            <Button
-              icon={<MinusOutlined />}
-              onClick={() =>
-                productCount > 1
-                  ? setProductCount(productCount - 1)
-                  : setProductCount(1)
+    <>
+      {page === "Dashboard" ? (
+        <Card loading={loading} style={{ width: 300 }}>
+          <Meta title={product.name} description={product.amount} />
+        </Card>
+      ) : (
+        <Card
+          loading={loading}
+          style={{ width: 300 }}
+          cover={
+            <Image
+              alt={product.photo.name}
+              src={product.photo.url}
+              placeholder={
+                <Image preview={false} src={ProgressiveLoading} height={200} />
               }
             />
-            <h2>{productCount}</h2>
-            <Button
-              icon={<PlusOutlined />}
-              onClick={() => setProductCount(productCount + 1)}
-            />
-            {isInCart(product) && (
-              <Button
-                type="primary"
-                icon={<ShoppingCartOutlined />}
-                onClick={() => increase(product, productCount)}
-              >
-                Add More
-              </Button>
-            )}
-            {!isInCart(product) && (
-              <Button
-                type="primary"
-                icon={<ShoppingCartOutlined />}
-                onClick={addToCart}
-              >
-                Add to Cart
-              </Button>
-            )}
-          </Space>
-        </Button.Group>,
-      ]}
-    >
-      <Meta title={product.name} description={product.price_in_rs} />
-    </Card>
+          }
+          actions={[
+            <Button.Group>
+              <Space>
+                <Button
+                  icon={<MinusOutlined />}
+                  onClick={() =>
+                    productCount > 1
+                      ? setProductCount(productCount - 1)
+                      : setProductCount(1)
+                  }
+                />
+                <h2>{productCount}</h2>
+                <Button
+                  icon={<PlusOutlined />}
+                  onClick={() => setProductCount(productCount + 1)}
+                />
+                {isInCart(product) && (
+                  <Button
+                    type="primary"
+                    icon={<ShoppingCartOutlined />}
+                    onClick={() => increase(product, productCount)}
+                  >
+                    Add More
+                  </Button>
+                )}
+                {!isInCart(product) && (
+                  <Button
+                    type="primary"
+                    icon={<ShoppingCartOutlined />}
+                    onClick={addToCart}
+                  >
+                    Add to Cart
+                  </Button>
+                )}
+              </Space>
+            </Button.Group>,
+          ]}
+        >
+          <Meta title={product.name} description={product.price_in_rs} />
+        </Card>
+      )}
+    </>
   );
 };
 

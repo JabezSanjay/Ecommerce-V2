@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserSider from "../../components/Sider/UserSider";
 import { getAllUserOrders } from "./helper";
+import { Carousel, Col, Row } from "antd";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -9,6 +10,8 @@ import "swiper/components/pagination/pagination.min.css";
 // Import Swiper core and required modules
 import SwiperCore, { Pagination } from "swiper/core";
 import { isAuthenticated } from "../Auth/helper";
+import ProductCard from "../../components/Card/ProductCard";
+import styled from "styled-components";
 
 SwiperCore.use([Pagination]);
 
@@ -27,12 +30,50 @@ const UserDashboard = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(products);
+  let itemsToRender;
+  products
+    ? (itemsToRender = products.map((item, index) => {
+        return (
+          <SwiperSlide key={index}>
+            <div className="userDashboard__card">
+              <ProductCard product={item} page="Dashboard" />
+            </div>
+          </SwiperSlide>
+        );
+      }))
+    : (itemsToRender = "Loading...");
   return (
-    <div>
-      <UserSider selectedKey="1" />
-    </div>
+    <DashboardTag>
+      <Row align="middle" gutter={[16, 24]}>
+        <Col>
+          <UserSider selectedKey="1" />
+        </Col>
+
+        <Col className="userDashboard__column">
+          <Swiper
+            spaceBetween={50}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+          >
+            {itemsToRender}
+          </Swiper>
+        </Col>
+      </Row>
+    </DashboardTag>
   );
 };
 
 export default UserDashboard;
+
+const DashboardTag = styled.div`
+  .userDashboard {
+    &__column {
+      margin-top: 10vh;
+    }
+    &__card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+`;
