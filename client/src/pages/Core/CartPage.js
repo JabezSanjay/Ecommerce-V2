@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Row, Image, Button, Breadcrumb, Col, message } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { CartContext } from "../../hooks/CartContext";
@@ -11,6 +11,7 @@ import { createOrder, emptyCart } from "./helper";
 
 const CartPage = () => {
   const { cartItems, total, removeProduct } = useContext(CartContext);
+  const [loading, setLoading] = useState(false);
 
   // eslint-disable-next-line
   const authToken = isAuthenticated() && isAuthenticated().token;
@@ -34,6 +35,7 @@ const CartPage = () => {
   };
 
   const displayRazorPay = async () => {
+    setLoading(true);
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -89,6 +91,7 @@ const CartPage = () => {
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
+    setLoading(false);
   };
 
   const columns = [
@@ -156,7 +159,7 @@ const CartPage = () => {
       <Row style={{ margin: "7.5vh 0 2vh 0" }} justify="center">
         <h1>Total Price : Rs. {total}</h1>
         {cartItems.length >= 1 && (
-          <Button type="primary" onClick={displayRazorPay}>
+          <Button type="primary" onClick={displayRazorPay} loading={loading}>
             Checkout
           </Button>
         )}
