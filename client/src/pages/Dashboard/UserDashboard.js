@@ -45,11 +45,11 @@ const UserDashboard = () => {
   return (
     <DashboardTag>
       <Row align="middle" gutter={[16, 24]}>
-        <Col>
+        <Col xl={3} lg={5} md={6} sm={4} xs={5}>
           <UserSider selectedKey="1" />
         </Col>
 
-        <Col className="userDashboard__column">
+        <Col xl={21} lg={19} md={18} sm={20} xs={19}>
           <Swiper
             spaceBetween={50}
             slidesPerView={1}
