@@ -11,7 +11,6 @@ import ProgressiveLoading from "../../assets/images/image-loading.png";
 const { Meta } = Card;
 
 const ProductCard = ({ product, loading, page }) => {
-  console.log(product);
   const [productCount, setProductCount] = useState(1);
 
   const { addProduct, cartItems, increase } = useContext(CartContext);
