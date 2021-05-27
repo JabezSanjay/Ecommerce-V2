@@ -156,9 +156,6 @@ button:focus {
   align-items: center;
   justify-content: center;
 }
-.align-center p {
-  color: red;
-}
 
 .table-header {
   font-size: 1.3rem;

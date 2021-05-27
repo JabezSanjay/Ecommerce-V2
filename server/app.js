@@ -39,7 +39,7 @@ app.use("/api", orderRoutes);
 app.use("/api", razorPaymentRoutes);
 
 //Port
-const port = process.env.port || 8000;
+const port = process.env.PORT || 8000;
 
 //Server Start
 app.listen(port, () => {
