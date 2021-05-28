@@ -8,10 +8,12 @@ import styled from "styled-components";
 import { API } from "../../backend";
 import { isAuthenticated } from "../Auth/helper";
 import { createOrder, emptyCart } from "./helper";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const { cartItems, total, removeProduct } = useContext(CartContext);
   const [loading, setLoading] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   // eslint-disable-next-line
   const authToken = isAuthenticated() && isAuthenticated().token;
@@ -82,7 +84,7 @@ const CartPage = () => {
               createOrder(userId, authToken, orderData);
             });
           });
-          window.location.reload();
+          setRedirect(true);
         }
       },
       theme: {
@@ -158,12 +160,18 @@ const CartPage = () => {
 
       <Row style={{ margin: "7.5vh 0 2vh 0" }} justify="center">
         <h1>Total Price : Rs. {total}</h1>
-        {cartItems.length >= 1 && (
+        {cartItems.length >= 1 && userId && (
           <Button type="primary" onClick={displayRazorPay} loading={loading}>
             Checkout
           </Button>
         )}
+        {!userId && (
+          <Link to="/signin">
+            <Button type="primary">Signin</Button>
+          </Link>
+        )}
       </Row>
+      {redirect && window.location.reload(false)}
     </CartTag>
   );
 };

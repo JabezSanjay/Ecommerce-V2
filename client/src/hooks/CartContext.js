@@ -36,7 +36,6 @@ const CartContextProvider = ({ children }) => {
     addProduct,
     increase,
     decrease,
-
     ...state,
   };
 
