@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { API } from "../../backend";
 import { isAuthenticated } from "../Auth/helper";
 import { createOrder, emptyCart } from "./helper";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const CartPage = () => {
   const { cartItems, total, removeProduct } = useContext(CartContext);
@@ -171,7 +171,7 @@ const CartPage = () => {
           </Link>
         )}
       </Row>
-      {redirect && window.location.reload(false)}
+      {redirect && <Redirect to="/user/dashboard" />}
     </CartTag>
   );
 };
