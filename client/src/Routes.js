@@ -10,6 +10,7 @@ import Register from "./pages/Auth/Register";
 import Signin from "./pages/Auth/Signin";
 import HomePage from "./pages/Core/HomePage";
 import CartPage from "./pages/Core/CartPage";
+import NotFound from "./pages/Core/NotFound";
 import FavouritesPage from "./pages/Core/FavouritesPage";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import UserDashboard from "./pages/Dashboard/UserDashboard";
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route path="/signin" exact component={Signin} />
         <Route path="/register" exact component={Register} />
         <Route path="/cart" exact component={CartPage} />
+        <Route component={NotFound} />
         <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
         <AdminRoute
           path="/admin/manage/categories"
