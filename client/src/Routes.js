@@ -23,7 +23,6 @@ const Routes = () => {
         <Route path="/signin" exact component={Signin} />
         <Route path="/register" exact component={Register} />
         <Route path="/cart" exact component={CartPage} />
-        <Route component={NotFound} />
         <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
         <AdminRoute
           path="/admin/manage/categories"
@@ -39,6 +38,7 @@ const Routes = () => {
           exact
           component={FavouritesPage}
         />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );
