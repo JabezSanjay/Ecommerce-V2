@@ -15,25 +15,16 @@ const HomePage = () => {
   const [searchCategory, setCategorySearch] = useState("");
   const [searchCategoryValue, setCategorySearchValue] = useState("");
   const [loading, setLoading] = useState(true);
-  const [minValue, setminValue] = useState(0);
-  const [maxValue, setmaxValue] = useState(4);
-  const [numEachPage, setNumEachPage] = useState(4);
+  const [total, setTotal] = useState();
 
-  const preload = () => {
-    setLoading(true);
-    getAllCategories().then((data) => {
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setCategories(data);
-      }
-    });
+  const preloadProducts = () => {
     getAllProducts().then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
+        setTotal(data.total);
         setProducts(
-          data.map((d) => {
+          data.products.map((d) => {
             return {
               name: d.name,
               category: d.category,
@@ -47,6 +38,19 @@ const HomePage = () => {
         );
       }
     });
+  };
+
+  const preload = () => {
+    setLoading(true);
+    getAllCategories().then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setCategories(data);
+      }
+    });
+    preloadProducts();
+
     setLoading(false);
   };
 
@@ -56,9 +60,8 @@ const HomePage = () => {
   }, []);
 
   const handlePagination = (value, pagesize) => {
-    setNumEachPage(pagesize);
-    setminValue((value - 1) * numEachPage);
-    setmaxValue(value * numEachPage);
+    console.log(value);
+    preloadProducts(value);
   };
 
   return (
@@ -106,7 +109,6 @@ const HomePage = () => {
                   return typedProduct;
                 }
               })
-              .slice(minValue, maxValue)
               .map((product, key) => {
                 return (
                   <Col key={key} xxl={5}>
@@ -122,8 +124,7 @@ const HomePage = () => {
         {(searchCategoryValue === "" || searchCategoryValue === "all") && (
           <Row justify="center" style={{ marginTop: "30px" }}>
             <Pagination
-              defaultPageSize={numEachPage}
-              total={products.length}
+              total={total}
               onChange={handlePagination}
               defaultCurrent={1}
             />

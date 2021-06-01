@@ -21,7 +21,7 @@ app.use(cors({ credentials: true, origin: true }));
 
 //DB Connection
 mongoose
-  .connect(productionDb, {
+  .connect(localDb, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

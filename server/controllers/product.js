@@ -100,7 +100,24 @@ exports.createProduct = (req, res) => {
   });
 };
 
-exports.getAllProducts = (req, res) => {
+exports.getAllProducts = async (req, res) => {
+  const { page = 1, limit = 4 } = req.query;
+  const total = await Product.countDocuments().exec();
+  Product.find()
+    .limit(limit * 1)
+    .skip((page - 1) * limit)
+    .populate("category", "_id name")
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: "No products found!",
+        });
+      }
+      res.json({ products, total });
+    });
+};
+
+exports.getAllProductsAdmin = async (req, res) => {
   Product.find()
     .populate("category", "_id name")
     .exec((err, products) => {

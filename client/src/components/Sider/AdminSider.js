@@ -20,7 +20,7 @@ const AdminSider = ({ selectedKey }) => {
       <Sider breakpoint="md" collapsible theme="light">
         <Menu
           mode="inline"
-          style={{ minHeight: "92.5vh" }}
+          style={{ minHeight: "85vh" }}
           defaultSelectedKeys={[selectedKey]}
         >
           <Menu.Item key="1" icon={<PieChartOutlined />}>

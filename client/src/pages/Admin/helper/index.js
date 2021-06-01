@@ -95,9 +95,21 @@ export const getProduct = async (productId) => {
 };
 
 //Get all products
-export const getAllProducts = async () => {
+export const getAllProducts = async (page) => {
+  let currentPage = page || 1;
   try {
-    const response = await fetch(`${API}/products/all`, {
+    const response = await fetch(`${API}/products/all?page=${currentPage}`, {
+      method: "GET",
+    });
+    return await response.json();
+  } catch (err) {
+    return console.log(err);
+  }
+};
+
+export const getAllProductsAdmin = async () => {
+  try {
+    const response = await fetch(`${API}/products/all/admin`, {
       method: "GET",
     });
     return await response.json();

@@ -1,6 +1,6 @@
 import { Button, Popconfirm, Row, Col, message } from "antd";
 import React, { useState, useEffect } from "react";
-import { deleteProduct, getAllProducts } from "../Admin/helper";
+import { deleteProduct, getAllProductsAdmin } from "../Admin/helper";
 import AdminSider from "../../components/Sider/AdminSider";
 import TableLayout from "../../components/TableLayout";
 import Sidebar from "../../components/Sidebar/ProductSidebar";
@@ -18,7 +18,7 @@ const Products = () => {
 
   const preload = () => {
     setLoading(true);
-    getAllProducts().then((data) => {
+    getAllProductsAdmin().then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
