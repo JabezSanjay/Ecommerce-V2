@@ -17,8 +17,8 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState();
 
-  const preloadProducts = () => {
-    getAllProducts().then((data) => {
+  const preloadProducts = (value) => {
+    getAllProducts(value).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -60,7 +60,6 @@ const HomePage = () => {
   }, []);
 
   const handlePagination = (value, pagesize) => {
-    console.log(value);
     preloadProducts(value);
   };
 
@@ -125,6 +124,7 @@ const HomePage = () => {
           <Row justify="center" style={{ marginTop: "30px" }}>
             <Pagination
               total={total}
+              defaultPageSize={4}
               onChange={handlePagination}
               defaultCurrent={1}
             />

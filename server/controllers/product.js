@@ -103,7 +103,8 @@ exports.createProduct = (req, res) => {
 exports.getAllProducts = async (req, res) => {
   const { page = 1, limit = 4 } = req.query;
   const total = await Product.countDocuments().exec();
-  Product.find()
+  const searchedField = req.query.name || "";
+  Product.find({ name: { $regex: searchedField, $options: "$i" } })
     .limit(limit * 1)
     .skip((page - 1) * limit)
     .populate("category", "_id name")
