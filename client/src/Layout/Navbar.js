@@ -20,7 +20,9 @@ const Navbar = ({ history, padding }) => {
     return (
       <header className="header" style={{ paddingBottom: padding || "120px" }}>
         <nav className="navbar">
-          <h1 className="navbar__logo">Ecommerce-V2</h1>
+          <Link to="/" className="navbar__logo">
+            Ecommerce-V2
+          </Link>
           <ul
             className={
               navbar ? "navbar__links navbar--active" : "navbar__links"
@@ -152,7 +154,7 @@ const MenuTag = styled.div`
       background: #1890ff;
       z-index: 999;
       &__logo {
-        font-size: 1rem;
+        font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 1px;
         color: #fff;

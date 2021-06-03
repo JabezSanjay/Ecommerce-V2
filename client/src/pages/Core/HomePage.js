@@ -131,6 +131,6 @@ export default HomePage;
 
 const HomepageTag = styled.div`
   .product-card {
-    padding: 7.5vh 0 7.5vh 0;
+    padding: 10vh 0 10vh 0;
   }
 `;
