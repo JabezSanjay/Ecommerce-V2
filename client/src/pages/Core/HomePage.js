@@ -17,8 +17,9 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState();
 
-  const preloadProducts = (value) => {
-    getAllProducts(value).then((data) => {
+  const preloadProducts = async (value) => {
+    setLoading(true);
+    await getAllProducts(value).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -38,6 +39,7 @@ const HomePage = () => {
         );
       }
     });
+    setLoading(false);
   };
 
   const preload = () => {

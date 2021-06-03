@@ -37,7 +37,7 @@ const ProductCard = ({ product, loading, page }) => {
           cover={
             <Image
               alt={product.photo.name}
-              src={product.photo.url}
+              src={loading ? ProgressiveLoading : product.photo.url}
               placeholder={
                 <Image preview={false} src={ProgressiveLoading} height={200} />
               }

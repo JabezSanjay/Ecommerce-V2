@@ -104,7 +104,6 @@ exports.getAllProducts = async (req, res) => {
   const { page = 1, limit = 4 } = req.query;
   const total = await Product.countDocuments().exec();
   const searchedField = req.query.name || "";
-  const searchedCategory = req.query.categoryId || "";
   Product.find({ name: { $regex: searchedField, $options: "$i" } })
     .limit(limit * 1)
     .skip((page - 1) * limit)
