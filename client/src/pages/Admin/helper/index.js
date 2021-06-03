@@ -95,12 +95,21 @@ export const getProduct = async (productId) => {
 };
 
 //Get all products
-export const getAllProducts = async (page) => {
+export const getAllProducts = async (page, search) => {
   let currentPage = page || 1;
+  let productSearch = search || "";
   try {
-    const response = await fetch(`${API}/products/all?page=${currentPage}`, {
-      method: "GET",
-    });
+    const response =
+      productSearch === ""
+        ? await fetch(`${API}/products/all?page=${currentPage}`, {
+            method: "GET",
+          })
+        : await fetch(
+            `${API}/products/all?page=${currentPage}&name=${productSearch}`,
+            {
+              method: "GET",
+            }
+          );
     return await response.json();
   } catch (err) {
     return console.log(err);

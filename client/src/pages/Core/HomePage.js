@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../Layout/Navbar";
 import ProductCard from "../../components/Card/ProductCard";
-import { Row, Col, Select, Button, Pagination } from "antd";
+import { Row, Col, Pagination, Input, Button, Space, Spin } from "antd";
 import styled from "styled-components";
+import { getAllProducts } from "../Admin/helper";
 import { SearchOutlined } from "@ant-design/icons";
-import { getAllCategories, getAllProducts } from "../Admin/helper";
-
-const { Option } = Select;
 
 const HomePage = () => {
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [setError] = useState("");
-  const [searchCategory, setCategorySearch] = useState("");
-  const [searchCategoryValue, setCategorySearchValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
   const [total, setTotal] = useState();
+  const [searchValue, setSearchValue] = useState("");
 
-  const preloadProducts = async (value) => {
+  const preloadProducts = async (page, search) => {
     setLoading(true);
-    await getAllProducts(value).then((data) => {
+    await getAllProducts(page, search).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -42,18 +40,18 @@ const HomePage = () => {
     setLoading(false);
   };
 
-  const preload = () => {
-    setLoading(true);
-    getAllCategories().then((data) => {
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setCategories(data);
-      }
-    });
-    preloadProducts();
+  const preload = async () => {
+    setPageLoading(true);
+    // getAllCategories().then((data) => {
+    //   if (data.error) {
+    //     setError(data.error);
+    //   } else {
+    //     setCategories(data);
+    //   }
+    // });
+    await preloadProducts();
 
-    setLoading(false);
+    setPageLoading(false);
   };
 
   useEffect(() => {
@@ -61,55 +59,32 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePagination = (value, pagesize) => {
-    preloadProducts(value);
-  };
-
   return (
     <HomepageTag>
       <Navbar />
 
       <Row justify="center">
-        <Select
-          style={{ width: 200 }}
-          onChange={(value) => setCategorySearch(value)}
-          placeholder="Search By Category"
-        >
-          <Option value="all">All</Option>
-          {categories.map((category, key) => {
-            return (
-              <Option value={category.name} key={key}>
-                {category.name}
-              </Option>
-            );
-          })}
-        </Select>
-
+        <Input
+          placeholder="input search text"
+          style={{ width: 250 }}
+          allowClear
+          size="large"
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
         <Button
           icon={<SearchOutlined />}
-          onClick={() => {
-            setCategorySearchValue(searchCategory);
-          }}
+          size="large"
+          onClick={() => preloadProducts(1, searchValue)}
         />
       </Row>
 
       <div className="product-card">
         <Row justify="space-around" align="middle" gutter={[16, 24]}>
+          {pageLoading && <Spin size="large" />}
           {products &&
             products.length > 0 &&
             products
               // eslint-disable-next-line array-callback-return
-              .filter((typedProduct) => {
-                if (
-                  typedProduct.category.name
-                    .toLowerCase()
-                    .includes(searchCategoryValue.toLowerCase())
-                ) {
-                  return typedProduct;
-                } else if (searchCategoryValue === "all") {
-                  return typedProduct;
-                }
-              })
               .map((product, key) => {
                 return (
                   <Col key={key} xxl={5}>
@@ -121,13 +96,28 @@ const HomePage = () => {
                   </Col>
                 );
               })}
+          {products.length === 0 && searchValue !== "" && (
+            <Space>
+              <h1>No Products!</h1>
+              <Button
+                onClick={() => {
+                  preloadProducts();
+                }}
+              >
+                Show All
+              </Button>
+            </Space>
+          )}
         </Row>
-        {(searchCategoryValue === "" || searchCategoryValue === "all") && (
+
+        {products.length !== 0 && searchValue === "" && (
           <Row justify="center" style={{ marginTop: "30px" }}>
             <Pagination
               total={total}
               defaultPageSize={4}
-              onChange={handlePagination}
+              onChange={(value) => {
+                preloadProducts(value);
+              }}
               defaultCurrent={1}
             />
           </Row>
@@ -141,6 +131,6 @@ export default HomePage;
 
 const HomepageTag = styled.div`
   .product-card {
-    padding: 10vh 0 10vh 0;
+    padding: 7.5vh 0 7.5vh 0;
   }
 `;
