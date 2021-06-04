@@ -65,7 +65,7 @@ const HomePage = () => {
 
       <Row justify="center">
         <Input
-          placeholder="input search text"
+          placeholder="Search Products"
           style={{ width: 250 }}
           allowClear
           size="large"
