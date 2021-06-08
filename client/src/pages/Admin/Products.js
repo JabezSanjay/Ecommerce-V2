@@ -107,7 +107,7 @@ const Products = () => {
     <div>
       <Row>
         <Col>
-          <AdminSider selectedKey="3" />
+          <AdminSider selectedKey="2" />
         </Col>
         <TableLayout
           columns={columns}

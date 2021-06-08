@@ -90,7 +90,7 @@ const Categories = () => {
     <div>
       <Row>
         <Col>
-          <AdminSider selectedKey="2" />
+          <AdminSider selectedKey="1" />
         </Col>
         <TableLayout
           columns={columns}

@@ -51,7 +51,7 @@ const Navbar = ({ history, padding }) => {
 
             {user && user.role === 1 && (
               <li>
-                <Link to="/admin/dashboard" onClick={navbarClicked}>
+                <Link to="/admin/manage/categories" onClick={navbarClicked}>
                   Dashboard
                 </Link>
               </li>

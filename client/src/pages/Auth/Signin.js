@@ -134,6 +134,9 @@ const Signin = () => {
             <p>
               New to Ecommerce-V2? - <Link to="/register">Register</Link>
             </p>
+            <p>For Admin access :</p>
+            <p>Email : admin@admin.com</p>
+            <p>Password : 20032020</p>
           </div>
         </div>
       </div>
