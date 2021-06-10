@@ -24,6 +24,20 @@ const ProductCard = ({ product, loading, page }) => {
     message.success(`${product.name} added to cart!`);
   };
 
+  const decreaseCount = () => {
+    return productCount > 1
+      ? setProductCount(productCount - 1)
+      : setProductCount(1);
+  };
+
+  const increaseCount = () => {
+    setProductCount(productCount + 1);
+  };
+
+  const increaseCartItems = (product, productCount) => {
+    increase(product, productCount);
+  };
+
   return (
     <>
       {page === "Dashboard" ? (
@@ -46,24 +60,14 @@ const ProductCard = ({ product, loading, page }) => {
           actions={[
             <Button.Group>
               <Space>
-                <Button
-                  icon={<MinusOutlined />}
-                  onClick={() =>
-                    productCount > 1
-                      ? setProductCount(productCount - 1)
-                      : setProductCount(1)
-                  }
-                />
+                <Button icon={<MinusOutlined />} onClick={decreaseCount} />
                 <h2>{productCount}</h2>
-                <Button
-                  icon={<PlusOutlined />}
-                  onClick={() => setProductCount(productCount + 1)}
-                />
+                <Button icon={<PlusOutlined />} onClick={increaseCount} />
                 {isInCart(product) && (
                   <Button
                     type="primary"
                     icon={<ShoppingCartOutlined />}
-                    onClick={() => increase(product, productCount)}
+                    onClick={increaseCartItems(product, productCount)}
                   >
                     Add More
                   </Button>
