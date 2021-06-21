@@ -48,22 +48,23 @@ exports.updateUser = (req, res) => {
   );
 };
 
-exports.updateFavorites = (req, res) => {
-  // User.findOneAndUpdate(
-  //   { _id: req.profile._id },
-  //   { $set: req.body },
-  //   { new: true, useFindAndModify: false },
-  //   (error, user) => {
-  //     if (error) {
-  //       return res.status(400).json({
-  //         error: "You are not authorized to update the user!",
-  //       });
-  //     }
-  //     user.salt = undefined;
-  //     user.encrypted_password = undefined;
-  //     return res.json(user);
-  //   }
-  // );
+exports.addFavorite = (req, res) => {
+  User.findOne({ _id: req.profile._id }, (err, user) => {
+    if (err) {
+      return res.status(401).json({
+        error: "You are not logged in!",
+      });
+    }
+    user.favourites.push(req.body);
+    user.save((err, updatedUser) => {
+      if (err) {
+        return res.status(401).json({
+          error: "You are not logged in!",
+        });
+      }
+      return res.status(200).json(updatedUser.favourites);
+    });
+  });
 };
 
 exports.userPurchaseList = (req, res) => {
