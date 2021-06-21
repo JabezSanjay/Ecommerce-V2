@@ -67,6 +67,33 @@ exports.addFavorite = (req, res) => {
   });
 };
 
+exports.removeFavorite = (req, res) => {
+  User.findOne({ _id: req.profile._id }, (err, user) => {
+    if (err) {
+      return res.status(401).json({
+        error: "You are not logged in!",
+      });
+    }
+
+    const prodIndex = user.favourites.findIndex((product) => {
+      return product._id === req.body._id;
+    });
+    if (prodIndex !== -1) {
+      user.favourites.splice(prodIndex, 1);
+    }
+
+    user.save((err, updatedUser) => {
+      if (err) {
+        return res.status(401).json({
+          error: "You are not logged in!",
+        });
+      }
+
+      return res.status(200).json(updatedUser.favourites);
+    });
+  });
+};
+
 exports.userPurchaseList = (req, res) => {
   const id = req.profile._id;
 

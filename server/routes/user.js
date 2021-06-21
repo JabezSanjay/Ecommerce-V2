@@ -6,6 +6,7 @@ const {
   getUser,
   updateUser,
   addFavorite,
+  removeFavorite,
   userPurchaseList,
   getAllUsers,
 } = require("../controllers/user");
@@ -22,6 +23,13 @@ router.put(
   isSignedIn,
   isAuthenticated,
   addFavorite
+);
+
+router.put(
+  "/user/remove/favorite/:userId",
+  isSignedIn,
+  isAuthenticated,
+  removeFavorite
 );
 
 router.get(
