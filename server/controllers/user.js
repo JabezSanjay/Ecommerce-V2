@@ -48,6 +48,17 @@ exports.updateUser = (req, res) => {
   );
 };
 
+exports.getFavorite = (req, res) => {
+  User.findOne({ _id: req.profile._id }, (err, user) => {
+    if (err) {
+      return res.status(401).json({
+        error: "You are not logged in!",
+      });
+    }
+    return res.status(200).json(user.favourites);
+  });
+};
+
 exports.addFavorite = (req, res) => {
   User.findOne({ _id: req.profile._id }, (err, user) => {
     if (err) {

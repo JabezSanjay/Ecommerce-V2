@@ -5,6 +5,7 @@ const {
   getUserById,
   getUser,
   updateUser,
+  getFavorite,
   addFavorite,
   removeFavorite,
   userPurchaseList,
@@ -16,6 +17,7 @@ router.param("userId", getUserById);
 
 router.get("/user/:userId", isSignedIn, isAuthenticated, getUser);
 router.get("/users/all", getAllUsers);
+router.get("/user/get/favorite/:userId", getFavorite);
 
 router.put("/user/:userId", isSignedIn, isAuthenticated, updateUser);
 router.put(
