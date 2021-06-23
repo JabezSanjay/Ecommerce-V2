@@ -1,9 +1,11 @@
-import { Col, Row } from "antd";
+import { Col, Row, Image, Button } from "antd";
 import React, { useEffect, useState } from "react";
+import { HeartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import UserSider from "../../components/Sider/UserSider";
 import { isAuthenticated } from "../Auth/helper";
-import { loadFavorites } from "./helper";
+import { loadFavorites, removeFavorites } from "./helper";
+import TableLayout from "../../components/TableLayout";
 
 const FavouritesPage = () => {
   const { user, token } = isAuthenticated();
@@ -11,8 +13,52 @@ const FavouritesPage = () => {
   const [favorites, setFavorites] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
+  const [reload, setReload] = useState(false);
+
+  const removeFromFavorite = (favorite) => {
+    removeFavorites(user._id, token, favorite);
+    setReload(!reload);
+  };
+
+  const columns = [
+    {
+      title: "Image",
+      key: "_id",
+      render: (record) => (
+        <Image src={record.image_url} alt="Product image" width={100} />
+      ),
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <h4>{text}</h4>,
+    },
+
+    {
+      title: "Price in Rs.",
+      dataIndex: "price_in_rs",
+      key: "_id",
+      render: (text) => <h4>{text}</h4>,
+    },
+    {
+      title: "Actions",
+      key: "_id",
+      render: (record) => (
+        <Button
+          type="danger"
+          icon={<HeartOutlined />}
+          onClick={() => {
+            removeFromFavorite(record);
+          }}
+        >
+          Remove
+        </Button>
+      ),
+    },
+  ];
 
   useEffect(() => {
     loadFavorites(user._id, token).then((data) => {
@@ -23,10 +69,8 @@ const FavouritesPage = () => {
         setLoading(false);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reload, token, user._id]);
 
-  console.log(favorites);
   return (
     <FavouritesTag>
       <Row>
@@ -42,7 +86,15 @@ const FavouritesPage = () => {
           sm={20}
           xs={19}
         >
-          <h1>Coming Soon....</h1>
+          <TableLayout
+            columns={columns}
+            dataSource={favorites}
+            createButton={false}
+            tab="Favorites"
+            pagination={false}
+            loading={loading}
+            scroll={550}
+          />
         </Col>
       </Row>
     </FavouritesTag>
@@ -55,7 +107,8 @@ const FavouritesTag = styled.div`
   .favorites {
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin-top: 2em;
+
     h1 {
       font-size: 1.5rem;
     }
