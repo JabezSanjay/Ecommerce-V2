@@ -1,17 +1,38 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Card, Button, Space, Image, message } from "antd";
 import {
   ShoppingCartOutlined,
   MinusOutlined,
   PlusOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 import { CartContext } from "../../hooks/CartContext";
 import ProgressiveLoading from "../../assets/images/image-loading.png";
+import {
+  addFavorites,
+  loadFavorites,
+  removeFavorites,
+} from "../../pages/Core/helper";
+import { isAuthenticated } from "../../pages/Auth/helper";
 
 const { Meta } = Card;
 
 const ProductCard = ({ product, loading, page }) => {
+  const { user, token } = isAuthenticated();
   const [productCount, setProductCount] = useState(1);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    loadFavorites(user._id, token).then((data) => {
+      // eslint-disable-next-line array-callback-return
+      data.map((d) => {
+        if (d._id === product._id) {
+          setIsFavorite(true);
+        }
+      });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { addProduct, cartItems, increase } = useContext(CartContext);
 
@@ -36,6 +57,18 @@ const ProductCard = ({ product, loading, page }) => {
 
   const increaseCartItems = (product, productCount) => {
     increase(product, productCount);
+  };
+
+  const addToFavorite = (product) => {
+    setIsFavorite(!isFavorite);
+    addFavorites(user._id, token, product);
+    message.success(`${product.name} is added to your favorites!`);
+  };
+
+  const removeFromFavorite = (favorite) => {
+    setIsFavorite(!isFavorite);
+    removeFavorites(user._id, token, favorite);
+    message.error(`${product.name} is removed from your favorites!`);
   };
 
   return (
@@ -67,7 +100,7 @@ const ProductCard = ({ product, loading, page }) => {
                   <Button
                     type="primary"
                     icon={<ShoppingCartOutlined />}
-                    onClick={increaseCartItems(product, productCount)}
+                    onClick={() => increaseCartItems(product, productCount)}
                   >
                     Add More
                   </Button>
@@ -80,6 +113,22 @@ const ProductCard = ({ product, loading, page }) => {
                   >
                     Add to Cart
                   </Button>
+                )}
+                {!isFavorite ? (
+                  <Button
+                    icon={<HeartOutlined />}
+                    onClick={() => {
+                      addToFavorite(product);
+                    }}
+                  />
+                ) : (
+                  <Button
+                    type="primary"
+                    icon={<HeartOutlined />}
+                    onClick={() => {
+                      removeFromFavorite(product);
+                    }}
+                  />
                 )}
               </Space>
             </Button.Group>,
