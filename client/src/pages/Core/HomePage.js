@@ -9,6 +9,7 @@ import { SearchOutlined } from "@ant-design/icons";
 const HomePage = () => {
   // const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+
   const [setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
@@ -22,6 +23,7 @@ const HomePage = () => {
         setError(data.error);
       } else {
         setTotal(data.total);
+
         setProducts(
           data.products.map((d) => {
             return {

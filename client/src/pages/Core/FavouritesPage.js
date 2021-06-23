@@ -9,7 +9,9 @@ const FavouritesPage = () => {
   const { user, token } = isAuthenticated();
 
   const [favorites, setFavorites] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
