@@ -64,3 +64,19 @@ export const createOrder = async (userId, authToken, orderData) => {
     return console.log(err);
   }
 };
+
+export const loadFavorites = async (userId, authToken) => {
+  try {
+    const response = await fetch(`${API}/user/get/favorite/${userId}`, {
+      method: "GET",
+      headers: {
+        // Accept: "application/json",
+        // "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    return console.log(err);
+  }
+};

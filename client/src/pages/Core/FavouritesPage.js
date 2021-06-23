@@ -1,9 +1,30 @@
 import { Col, Row } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import UserSider from "../../components/Sider/UserSider";
+import { isAuthenticated } from "../Auth/helper";
+import { loadFavorites } from "./helper";
 
 const FavouritesPage = () => {
+  const { user, token } = isAuthenticated();
+
+  const [favorites, setFavorites] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadFavorites(user._id, token).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setFavorites(data);
+        setLoading(false);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log(favorites);
   return (
     <FavouritesTag>
       <Row>
