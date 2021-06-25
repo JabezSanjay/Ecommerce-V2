@@ -14,11 +14,13 @@ const FavouritesPage = () => {
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
 
-  const removeFromFavorite = (favorite) => {
-    removeFavorites(user._id, token, favorite);
+  const removeFromFavorite = async (favorite) => {
+    setLoading(true);
+    await removeFavorites(user._id, token, favorite);
+    setLoading(false);
     setReload(!reload);
   };
 
@@ -61,11 +63,11 @@ const FavouritesPage = () => {
   ];
 
   useEffect(() => {
-    loadFavorites(user._id, token).then((data) => {
+    loadFavorites(user._id, token).then(async (data) => {
       if (data.error) {
         setError(data.error);
       } else {
-        setFavorites(data);
+        await setFavorites(data);
         setLoading(false);
       }
     });

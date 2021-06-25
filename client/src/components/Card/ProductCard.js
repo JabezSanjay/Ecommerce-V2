@@ -23,14 +23,15 @@ const ProductCard = ({ product, loading, page }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    loadFavorites(user._id, token).then((data) => {
-      // eslint-disable-next-line array-callback-return
-      data.map((d) => {
-        if (d._id === product._id) {
-          setIsFavorite(true);
-        }
+    user &&
+      loadFavorites(user._id, token).then((data) => {
+        // eslint-disable-next-line array-callback-return
+        data.map((d) => {
+          if (d._id === product._id) {
+            setIsFavorite(true);
+          }
+        });
       });
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -114,7 +115,7 @@ const ProductCard = ({ product, loading, page }) => {
                     Add to Cart
                   </Button>
                 )}
-                {!isFavorite ? (
+                {user && !isFavorite ? (
                   <Button
                     icon={<HeartOutlined />}
                     onClick={() => {
@@ -122,13 +123,15 @@ const ProductCard = ({ product, loading, page }) => {
                     }}
                   />
                 ) : (
-                  <Button
-                    type="primary"
-                    icon={<HeartOutlined />}
-                    onClick={() => {
-                      removeFromFavorite(product);
-                    }}
-                  />
+                  user && (
+                    <Button
+                      type="primary"
+                      icon={<HeartOutlined />}
+                      onClick={() => {
+                        removeFromFavorite(product);
+                      }}
+                    />
+                  )
                 )}
               </Space>
             </Button.Group>,
