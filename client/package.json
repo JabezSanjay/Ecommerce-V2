@@ -1,7 +1,7 @@
 {
   "name": "ecommercev2",
   "version": "1.0.0",
-  "homepage": "https://ecommerce.jabezsanjay.com/",
+  "homepage": "https://ecommerce.jabezsanjay.tech/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
