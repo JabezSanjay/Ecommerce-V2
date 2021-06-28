@@ -13,6 +13,13 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Email is requried!"],
     },
     user_info: String,
+    address: {
+      doorNo: String,
+      streetName: String,
+      state: String,
+      country: String,
+      zipCode: Number,
+    },
     encrypted_password: {
       type: String,
       required: [true, "Password is requried!"],

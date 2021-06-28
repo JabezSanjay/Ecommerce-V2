@@ -19,8 +19,12 @@ const OrderSchema = new mongoose.Schema(
     transaction_id: {},
     amount: { type: Number },
     address: {
-      street: String,
+      doorNo: String,
+      streetName: String,
       state: String,
+      country: String,
+      zipCode: Number,
+      required: [true, "Address is requried!"],
     },
     status: {
       type: String,
