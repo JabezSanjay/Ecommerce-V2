@@ -1,5 +1,16 @@
 import React, { useState, useContext } from "react";
-import { Row, Image, Button, Breadcrumb, Col, message } from "antd";
+import {
+  Row,
+  Image,
+  Button,
+  Breadcrumb,
+  Col,
+  message,
+  Modal,
+  Form,
+  Input,
+  Select,
+} from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { CartContext } from "../../hooks/CartContext";
 import Navbar from "../../Layout/Navbar";
@@ -7,13 +18,36 @@ import TableLayout from "../../components/TableLayout";
 import styled from "styled-components";
 import { API } from "../../backend";
 import { isAuthenticated } from "../Auth/helper";
-import { createOrder, emptyCart } from "./helper";
+import { createOrder } from "./helper";
 import { Link, Redirect } from "react-router-dom";
+import indianStates from "../../utils/indianStates";
 
 const CartPage = () => {
   const { cartItems, total, removeProduct } = useContext(CartContext);
+
   const [loading, setLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [address, setAddress] = useState({
+    doorNo: "",
+    streetName: "",
+    district: "",
+    state: "",
+    country: "",
+  });
+
+  const { doorNo, streetName, district, country } = address;
+
+  const handleChange = (name) => (event) => {
+    setAddress({ ...address, [name]: event.target.value });
+  };
+  const handleSelect = (value) => {
+    if (value === "India") {
+      setAddress({ ...address, country: value });
+    } else {
+      setAddress({ ...address, state: value });
+    }
+  };
 
   // eslint-disable-next-line
   const authToken = isAuthenticated() && isAuthenticated().token;
@@ -38,6 +72,7 @@ const CartPage = () => {
 
   const displayRazorPay = async () => {
     setLoading(true);
+
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -76,13 +111,15 @@ const CartPage = () => {
             method: "POST",
             body: response.razorpay_signature,
           }).then((res) => {
-            emptyCart(() => {
-              const orderData = {
-                products: cartItems,
-                amount: total,
-              };
-              createOrder(userId, authToken, orderData);
+            cartItems.map((item, key) => {
+              return removeProduct(item);
             });
+            const orderData = {
+              products: cartItems,
+              amount: total,
+              address: address,
+            };
+            createOrder(userId, authToken, orderData);
           });
           setRedirect(true);
         }
@@ -94,6 +131,14 @@ const CartPage = () => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
     setLoading(false);
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const columns = [
@@ -161,7 +206,7 @@ const CartPage = () => {
       <Row style={{ margin: "7.5vh 0 2vh 0" }} justify="center">
         <h1>Total Price : Rs. {total}</h1>
         {cartItems.length >= 1 && userId && (
-          <Button type="primary" onClick={displayRazorPay} loading={loading}>
+          <Button type="primary" onClick={showModal}>
             Checkout
           </Button>
         )}
@@ -172,6 +217,101 @@ const CartPage = () => {
         )}
       </Row>
       {redirect && <Redirect to="/user/dashboard" />}
+      <Modal
+        title="Enter your shipping address!"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        onOk={displayRazorPay}
+        okText="Checkout"
+        footer={false}
+      >
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          initialValues={{ remember: true }}
+          onFinish={displayRazorPay}
+        >
+          <Form.Item
+            label="Door No."
+            name="doorNo"
+            onChange={handleChange("doorNo")}
+            value={doorNo}
+            rules={[
+              { required: true, message: "Please enter your door number!" },
+              { max: 30, message: "Enter within 30 words!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Street Name"
+            name="streetName"
+            onChange={handleChange("streetName")}
+            value={streetName}
+            rules={[
+              { required: true, message: "Please enter your street name!" },
+              { max: 30, message: "Enter within 30 words!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="District"
+            name="districtName"
+            onChange={handleChange("district")}
+            value={district}
+            rules={[
+              { required: true, message: "Please enter your district name!" },
+              { max: 30, message: "Enter within 30 words!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="State"
+            name="state"
+            rules={[{ required: true, message: "Please enter your state!" }]}
+          >
+            <Select
+              onChange={handleSelect}
+              showSearch
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {indianStates.map((indianState, key) => {
+                return (
+                  <Select.Option key={key} value={indianState}>
+                    {indianState}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Country"
+            name="countryName"
+            rules={[{ required: true, message: "Please enter your country!" }]}
+          >
+            <Select onChange={handleSelect} value={country}>
+              <Select.Option value="India">India</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              size="large"
+              htmlType="submit"
+              loading={loading}
+              style={{ float: "right" }}
+            >
+              Checkout
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </CartTag>
   );
 };
