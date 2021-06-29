@@ -39,15 +39,6 @@ export const loadCartItems = () => {
   }
 };
 
-export const emptyCart = (next) => {
-  if (typeof window !== undefined) {
-    localStorage.removeItem("cart");
-    let cart = [];
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
-  next();
-};
-
 export const createOrder = async (userId, authToken, orderData) => {
   try {
     const reponse = await fetch(`${API}/order/create/${userId}`, {

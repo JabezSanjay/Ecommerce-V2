@@ -21,9 +21,9 @@ const OrderSchema = new mongoose.Schema(
     address: {
       doorNo: String,
       streetName: String,
+      district: String,
       state: String,
       country: String,
-      zipCode: Number,
       required: [true, "Address is requried!"],
     },
     status: {
