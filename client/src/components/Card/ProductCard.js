@@ -117,6 +117,7 @@ const ProductCard = ({ product, loading, page }) => {
                 )}
                 {user && !isFavorite ? (
                   <Button
+                    danger
                     icon={<HeartOutlined />}
                     onClick={() => {
                       addToFavorite(product);
@@ -125,6 +126,7 @@ const ProductCard = ({ product, loading, page }) => {
                 ) : (
                   user && (
                     <Button
+                      danger
                       type="primary"
                       icon={<HeartOutlined />}
                       onClick={() => {
