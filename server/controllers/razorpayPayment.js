@@ -3,7 +3,7 @@ const shortid = require("shortid");
 const crypto = require("crypto");
 
 const razorInstance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
+  key_id: process.env.RAZORPAY_KEY_ID_BACKEND,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
