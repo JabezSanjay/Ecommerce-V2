@@ -89,7 +89,6 @@ const Products = () => {
           >
             Edit
           </Button>
-
           <Popconfirm
             title="Sure to delete?"
             onConfirm={() => deleteThisProduct(record._id)}
