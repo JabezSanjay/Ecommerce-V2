@@ -204,7 +204,6 @@ const RegisterTag = styled.div`
     margin: 0 0 1rem;
   }
   .register {
-    text-align: center;
     padding: 4rem 2rem;
     img {
       width: 85%;
