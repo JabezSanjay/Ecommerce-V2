@@ -131,12 +131,14 @@ const Signin = () => {
               </div>
             </Form>
 
-            <p>
-              New to Ecommerce-V2? - <Link to="/register">Register</Link>
-            </p>
-            <p>For Admin access :</p>
-            <p>Email : admin@admin.com</p>
-            <p>Password : 20032020</p>
+            <div className="admin-info">
+              <p>
+                New to Ecommerce-V2? - <Link to="/register">Register</Link>
+              </p>
+              <p>For Admin access :</p>
+              <p>Email : admin@admin.com</p>
+              <p>Password : 20032020</p>
+            </div>
           </div>
         </div>
       </div>
@@ -181,6 +183,9 @@ const SigninTag = styled.div`
     margin: 0 0 1rem;
   }
   .register {
+    .admin-info {
+      text-align: center;
+    }
     padding: 4rem 2rem;
     img {
       width: 85%;
