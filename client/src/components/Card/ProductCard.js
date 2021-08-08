@@ -13,7 +13,7 @@ import {
   loadFavorites,
   removeFavorites,
 } from "../../pages/Core/helper";
-import { isAuthenticated } from "../../pages/Auth/helper";sss
+import { isAuthenticated } from "../../pages/Auth/helper";
 const { Meta } = Card;
 
 const ProductCard = ({ product, loading, page }) => {
